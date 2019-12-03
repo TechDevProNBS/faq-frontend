@@ -1,0 +1,17 @@
+.my{
+    width: 500px!important
+
+}
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: sticky;
+    height: 40px;
+    width: 100%;
+    overflow: hidden;
+}
+.site-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 68.4vh;
+  }
