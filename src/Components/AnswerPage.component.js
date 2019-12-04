@@ -4,7 +4,7 @@ import './css/FAQ.css'
 import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
 
-export default class Home extends React.Component {
+export default class Answer extends React.Component {
 
     constructor() {
         super();
@@ -25,28 +25,6 @@ export default class Home extends React.Component {
         this.setState({
             showModal: toggle
         });
-    }
-
-
-    showCommentBox = () => {
-        var form = document.getElementById('commentForm')
-        var submit = document.getElementById('submitComment')
-        var close = document.getElementById('closeComment')
-        var add = document.getElementById('addComment')
-        form.style.visibility = 'visible'
-        submit.style.visibility = 'visible'
-        close.style.visibility = 'visible'
-        add.style.visibility = 'hidden'
-    }
-    closeCommentBox = () => {
-        var form = document.getElementById('commentForm')
-        var submit = document.getElementById('submitComment')
-        var close = document.getElementById('closeComment')
-        var add = document.getElementById('addComment')
-        form.style.visibility = 'hidden'
-        submit.style.visibility = 'hidden'
-        close.style.visibility = 'hidden'
-        add.style.visibility = 'visible'
     }
 
     textAnswer = () => {
@@ -72,7 +50,7 @@ export default class Home extends React.Component {
                                 height="50"
                                 alt="Nationwide Logo"
                                 style={{ borderRadius: '25px' }} /></a>
-                            <h2 style={{ fontSize: '20px' }}>This is Question Number 1?</h2>
+                            <h2 style={{ fontSize: '20px' }}>{sessionStorage.getItem('questions')}</h2>
                             <div class="collapse navbar-collapse" id="navbarResponsive">
                             </div>
                         </div>

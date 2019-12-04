@@ -1,13 +1,6 @@
     import React from 'react';
     import { Form, FormControl } from 'react-bootstrap'
     import './css/FAQ.css'
-    import { TextArea } from 'semantic-ui-react'
-
-    const TextAreaExampleTextArea = () => (
-        <Form>
-            <TextArea placeholder='Question...' />
-        </Form>
-    )
 
     export default class Home extends React.Component {
         constructor() {
@@ -20,6 +13,10 @@
                 //Name of what you want 
             }
         }
+        Qstorage(question) {
+            sessionStorage.setItem('questions',question)
+        }
+
         componentDidMount = () => {
             let dataUnanswered = ""
             let dataRecent = ""
@@ -45,7 +42,12 @@
                     })
                 })
             }
+
         render() {
+
+           
+
+            console.log(this.state)
             return (
                 <div>
                     <body id="page-top">
@@ -79,7 +81,7 @@
                                     this.state.TopRatedQ.map((data, index) =>
 
                                         <div>
-                                            <a href="/answer">{index + 1}) {data.question}</a><br />
+                                            <a href="/answer" onClick={()=>this.Qstorage(data.question)}>{index + 1}) {data.question}</a><br />
                                             <br />
                                         </div>
                                     )}
@@ -92,7 +94,7 @@
                                 {
                                     this.state.UnansweredQ.map((data, index) =>
                                         <div>
-                                            <a href="/answer">{index + 1}) {data.question}</a><br />
+                                            <a href="/answer" onClick={()=>this.Qstorage(data.question)}>{index + 1}) {data.question}</a><br />
                                             <br />
                                         </div>
                                     )}
@@ -105,7 +107,7 @@
                                 {
                                     this.state.RecentQ.map((data, index) =>
                                         <div>
-                                            <a href="/answer">{index+1}) {data.question}</a><br />
+                                            <a href="/answer" onClick={()=>this.Qstorage(data.question)}>{index+1}) {data.question}</a><br />
                                             <br />
                                         </div>
                                     )}
