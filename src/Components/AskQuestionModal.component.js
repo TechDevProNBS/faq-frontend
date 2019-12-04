@@ -3,9 +3,7 @@ import {Button} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import './css/FAQ.css'
 
-import { TextArea } from 'semantic-ui-react'
-
-class CommentModal extends Component {
+class AskQuestionsModal extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
@@ -38,14 +36,14 @@ class CommentModal extends Component {
                 aria-labelledby="modal-label"
             >
                 <Modal.Header closeButton={true}>
-                    <h4 id="modal-label" className="overlay-title">Add a Comment</h4>
+                    <h4 id="modal-label" className="overlay-title">Ask A Question</h4>
                 </Modal.Header>
                 <Modal.Body>
                     {this.state.content}
                 </Modal.Body>
                 <Modal.Footer>
                     
-                    <Button variant='danger'> Submit
+                    <Button variant='primary'> Submit
                     </Button><br></br>
                     <Button variant='secondary' onClick={this.props.close ? this.props.close : this.close}> Close
                     </Button>
@@ -54,4 +52,4 @@ class CommentModal extends Component {
         );
     }
 }
-export default CommentModal;
+export default AskQuestionsModal;
