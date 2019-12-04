@@ -5,7 +5,6 @@ import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
 
 export default class Home extends React.Component {
-
     constructor() {
         super();
 
@@ -51,7 +50,7 @@ export default class Home extends React.Component {
 
     textAnswer = () => {
         return (
-            <input style={{ maxWidth: '100%', minWidth: '100%' }} />
+            <input style={{ maxWidth: '100%', minWidth: '100%' }} id="textAnswer" />
 
         );
     }

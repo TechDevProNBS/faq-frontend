@@ -24,6 +24,10 @@ class AnswerQuestionsModal extends Component {
             showModal1: nextProps.showModal1
         })
     }
+    postAnswer = () =>{
+        var answer=document.getElementById('textAnswer').value
+        console.log(answer)
+    }
 
     render() {
         return (
@@ -43,7 +47,7 @@ class AnswerQuestionsModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     
-                    <Button variant='primary'> Submit
+                    <Button variant='primary' onClick={this.postAnswer}> Submit
                     </Button><br></br>
                     <Button variant='secondary' onClick={this.props.close ? this.props.close : this.close}> Close
                     </Button>
