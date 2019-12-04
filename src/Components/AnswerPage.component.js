@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button} from 'react-bootstrap';
 import './css/FAQ.css'
 import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
+import { TextArea } from 'semantic-ui-react'
 
 export default class Answer extends React.Component {
 
@@ -14,13 +15,13 @@ export default class Answer extends React.Component {
         }
     }
 
-    handleButtonToggleModal1 = (toggle) => {
+    handleButtonToggleAnswerModal = (toggle) => {
 
         this.setState({
             showModal1: toggle
         });
     }
-    handleButtonToggleModal = (toggle) => {
+    handleButtonToggleCommentModal = (toggle) => {
 
         this.setState({
             showModal: toggle
@@ -29,7 +30,7 @@ export default class Answer extends React.Component {
 
     textAnswer = () => {
         return (
-            <input style={{ maxWidth: '100%', minWidth: '100%' }} />
+            <TextArea style={{ maxWidth: '100%', minWidth: '100%' }} />
 
         );
     }
@@ -50,7 +51,6 @@ export default class Answer extends React.Component {
                                 height="50"
                                 alt="Nationwide Logo"
                                 style={{ borderRadius: '25px' }} /></a>
-                            <h2 style={{ fontSize: '20px' }}>{sessionStorage.getItem('questions')}</h2>
                             <div class="collapse navbar-collapse" id="navbarResponsive">
                             </div>
                         </div>
@@ -58,17 +58,18 @@ export default class Answer extends React.Component {
                 </body>
                 <br />
 
+                            <center><h2 style={{ fontSize: '20px', marginTop:'45px' }}>{sessionStorage.getItem('questions')}</h2></center>
                 <div class="container site-container" style={{ marginTop: '60px', marginBottom: '30px' }}>
                     <div class="row">
                         <div class="col-lg-8  ">
                             
-                            <Button variant='danger' onClick={() => this.handleButtonToggleModal1(true)} style={{ height: '25px', paddingTop: '0' }}>Answer Question</Button>
+                            <Button variant='danger' onClick={() => this.handleButtonToggleAnswerModal(true)} style={{ height: '25px', paddingTop: '0' }}>Answer Question</Button>
 
-                            <AnswerQuestionsModal content={this.textAnswer()} title={"Answer Question"} showModal1={this.state.showModal1} close={() => this.handleButtonToggleModal1(false)} /><br /><br />
+                            <AnswerQuestionsModal content={this.textAnswer()} title={"Answer Question"} showModal1={this.state.showModal1} close={() => this.handleButtonToggleAnswerModal(false)} /><br /><br />
 
-                            This is Answer Number <Button variant='primary' onClick={() => this.handleButtonToggleModal(true)} style={{ height: '25px', paddingTop: '0', marginLeft: '20px' }}>Add Comment</Button>
+                            This is Answer Number <Button variant='primary' onClick={() => this.handleButtonToggleCommentModal(true)} style={{ height: '25px', paddingTop: '0', marginLeft: '20px' }}>Add Comment</Button>
 
-                            <CommentModal content={this.textAnswer()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleModal(false)} />
+                            <CommentModal content={this.textAnswer()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
 
                         </div>
                     </div>
