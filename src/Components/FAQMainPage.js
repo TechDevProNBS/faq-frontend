@@ -74,7 +74,7 @@ export default class Home extends React.Component {
                         <div class="col-lg-8">
                             <h3 style={{ color: '#3252A4' }}>Recently Posted Questions</h3>
                             <p class="lead"></p>
-                            <a href="/answer">1)</a><br />
+                            <text value={this.question}><a href="/answer">1){this.question}</a></text><br />
                             <a href="/answer">2)</a><br />
                             <a href="/answer">3)</a><br />
                             <a href="/answer">4)</a><br />
