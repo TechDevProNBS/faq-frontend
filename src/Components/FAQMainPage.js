@@ -19,7 +19,6 @@
                 TopRatedQ: []
                 //Name of what you want 
             }
-
         }
         componentDidMount = () => {
             let dataUnanswered = ""
@@ -44,31 +43,11 @@
                         UnansweredQ: dataUnanswered,
                             TopRatedQ: dataTop
                     })
-
                 })
-
-                
-
         }
-        
-        
-
-
-        OpenQuestion = () => {
-            var form = document.getElementById('Question')
-            form.style.visibility = 'visible'
-        }
-        CloseQuestion = () => {
-            var form = document.getElementById('Question')
-            form.style.visibility = 'hidden'
-        }
-
-
         render() {
-
             return (
                 <div>
-
                     <body id="page-top">
 
                         <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black', paddingTop: '0px', paddingBottom: '0px' }}>
@@ -97,7 +76,6 @@
                                 <h3 style={{ color: '#3252A4' }}>Trending Questions</h3>
                                 <p class="lead"></p>
                                 {
-
                                     this.state.TopRatedQ.map((data, index) =>
 
                                         <div>
@@ -117,7 +95,6 @@
                                             <a href="/answer">{index + 1}) {data.question}</a><br />
                                             <br />
                                         </div>
-
                                     )}
                             </div>
                         </div>
@@ -141,7 +118,6 @@
                         </div>
                     </footer>
                 </div>
-
             )
         }
     }
