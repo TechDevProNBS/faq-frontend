@@ -79,8 +79,9 @@ export default class Home extends React.Component {
                                 style={{ borderRadius: '25px' }} /></a>
 
                             <Form inline>
-                                <FormControl type="text" spellcheck='true' size="sm" placeholder="Search..." className="mr-sm-1" style={{ borderRadius: '25px', width: '250px' }} />
+                                <FormControl type="text" spellcheck='true' size="sm" placeholder="Search..." className="mr-sm-1 " style={{ borderRadius: '25px', width: '250px' }} />
                             </Form>
+                            
                             <div class="collapse navbar-collapse" id="navbarResponsive">
 
                             </div>
@@ -93,7 +94,7 @@ export default class Home extends React.Component {
                     <div class="row">
                         <div class="col-lg-8  ">
                             <h3 style={{ color: '#3252A4' }}>Trending Questions</h3>
-                            <p class="lead"></p>
+                           
                             {
                                 this.state.TopRatedQ.map((data, index) =>
 
@@ -107,7 +108,6 @@ export default class Home extends React.Component {
                     <div class="row">
                         <div class="col-lg-8 ">
                             <h3 style={{ color: '#3252A4' }}>Questions Which Need Answers</h3>
-                            <p class="lead"></p>
                             {
                                 this.state.UnansweredQ.map((data, index) =>
                                     <div>
@@ -120,7 +120,7 @@ export default class Home extends React.Component {
                     <div class="row">
                         <div class="col-lg-8">
                             <h3 style={{ color: '#3252A4' }}>Recently Posted Questions</h3>
-                            <p class="lead"></p>
+                            
                             {
                                 this.state.RecentQ.map((data, index) =>
                                     <div>

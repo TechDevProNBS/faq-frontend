@@ -99,3 +99,8 @@
     background-color: #004050;
     border-radius: .25rem;
   }
+
+  .search-bar{
+    border-radius: 25px;
+     width: 250px;
+  }

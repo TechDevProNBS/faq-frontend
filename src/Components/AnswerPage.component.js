@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import './css/FAQ.css'
 import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
@@ -51,6 +51,9 @@ export default class Answer extends React.Component {
                                 height="50"
                                 alt="Nationwide Logo"
                                 style={{ borderRadius: '25px' }} /></a>
+                            <Button variant='danger' onClick={() => this.handleButtonToggleAnswerModal(true)} style={{ height: '25px', paddingTop: '0'}}>Answer Question</Button>
+
+                            <AnswerQuestionsModal content={this.textAnswer()} title={"Answer Question"} showModal1={this.state.showModal1} close={() => this.handleButtonToggleAnswerModal(false)} />
                             <div class="collapse navbar-collapse" id="navbarResponsive">
                             </div>
                         </div>
@@ -58,19 +61,21 @@ export default class Answer extends React.Component {
                 </body>
                 <br />
 
-                            <center><h2 style={{ fontSize: '20px', marginTop:'45px' }}>{sessionStorage.getItem('questions')}</h2></center>
-                <div class="container site-container" style={{ marginTop: '60px', marginBottom: '30px' }}>
+                <h3 style={{ marginTop: '45px', marginLeft:'10px' }}>Question:
+                </h3>
+                <h4 style={{ backgroundColor: '#EEEEEE', marginLeft: '40px', marginRight: '40px' }}> {sessionStorage.getItem('questions')}</h4><br />
+                <div class="container site-container" style={{ marginTop: '0px', marginBottom: '30px' }}>
                     <div class="row">
-                        <div class="col-lg-8  ">
-                            
-                            <Button variant='danger' onClick={() => this.handleButtonToggleAnswerModal(true)} style={{ height: '25px', paddingTop: '0' }}>Answer Question</Button>
+                        <div class="col-lg-12">
 
-                            <AnswerQuestionsModal content={this.textAnswer()} title={"Answer Question"} showModal1={this.state.showModal1} close={() => this.handleButtonToggleAnswerModal(false)} /><br /><br />
+                            <h4 style={{marginRight:'40px', marginLeft:'40px'}}>Answers (Number of Answers): </h4><br />
 
-                            This is Answer Number <Button variant='primary' onClick={() => this.handleButtonToggleCommentModal(true)} style={{ height: '25px', paddingTop: '0', marginLeft: '20px' }}>Add Comment</Button>
+                            <text style={{marginRight:'80px', marginLeft:'80px'}}>This is Answer Number (Number of Comments)
+                             <Button variant='primary' onClick={() => this.handleButtonToggleCommentModal(true)} style={{ height: '25px', paddingTop: '0', marginLeft: '20px' }}>Add Comment</Button>
 
                             <CommentModal content={this.textAnswer()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
-
+                            </text><br />
+                            <text style={{marginRight:'120px', marginLeft:'120px', backgroundColor: '#EEEEEE'}}>Comment here</text>
                         </div>
                     </div>
                 </div>
