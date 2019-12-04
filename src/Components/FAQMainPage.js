@@ -44,7 +44,6 @@
                             TopRatedQ: dataTop
                     })
                 })
-        }
         render() {
             return (
                 <div>
