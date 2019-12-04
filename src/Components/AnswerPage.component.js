@@ -11,7 +11,9 @@ export default class Answer extends React.Component {
         super();
 
         this.state = {
+            RecentA: [],
             showIssueModal: true
+
         }
     }
 
@@ -34,10 +36,25 @@ export default class Answer extends React.Component {
 
         );
     }
+        
+    componentDidMount = () => {
+        var q_id = sessionStorage.getItem('q_id');
+       
+        fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
+                   //Url from backend
+            .then(response => response.json())
+            .then(data => {
+               
+                this.setState({
+                    RecentA: data
+                })
+            })
+
+            
+
+        }
 
     render() {
-
-
         return (
             <div>
 
@@ -67,7 +84,15 @@ export default class Answer extends React.Component {
 
                             <AnswerQuestionsModal content={this.textAnswer()} title={"Answer Question"} showModal1={this.state.showModal1} close={() => this.handleButtonToggleAnswerModal(false)} /><br /><br />
 
-                            This is Answer Number <Button variant='primary' onClick={() => this.handleButtonToggleCommentModal(true)} style={{ height: '25px', paddingTop: '0', marginLeft: '20px' }}>Add Comment</Button>
+                            {
+                                this.state.RecentA.map((data) =>
+                                <div>
+                                      <font>{data.answer}</font>
+                                <br />
+                            </div>  
+                                )}
+                            
+                            <Button variant='primary' onClick={() => this.handleButtonToggleCommentModal(true)} style={{ height: '25px', paddingTop: '0', marginLeft: '20px' }}>Add Comment</Button>
 
                             <CommentModal content={this.textAnswer()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
 

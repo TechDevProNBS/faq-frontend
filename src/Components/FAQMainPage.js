@@ -17,8 +17,9 @@ export default class Home extends React.Component {
         }
     }
 
-    Qstorage(question) {
+    Qstorage(question, q_id) {
         sessionStorage.setItem('questions', question)
+        sessionStorage.setItem('q_id', q_id)
     }
 
     componentDidMount = () => {
@@ -98,7 +99,7 @@ export default class Home extends React.Component {
                                 this.state.TopRatedQ.map((data, index) =>
 
                                     <div>
-                                        <a href="/answer" onClick={() => this.Qstorage(data.question)}>{index + 1}) {data.question}</a><br />
+                                        <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a><br />
                                         <br />
                                     </div>
                                 )}
@@ -111,7 +112,7 @@ export default class Home extends React.Component {
                             {
                                 this.state.UnansweredQ.map((data, index) =>
                                     <div>
-                                        <a href="/answer" onClick={() => this.Qstorage(data.question)}>{index + 1}) {data.question}</a><br />
+                                        <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a><br />
                                         <br />
                                     </div>
                                 )}
@@ -124,7 +125,7 @@ export default class Home extends React.Component {
                             {
                                 this.state.RecentQ.map((data, index) =>
                                     <div>
-                                        <a href="/answer" onClick={() => this.Qstorage(data.question)}>{index + 1}) {data.question}</a><br />
+                                        <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a><br />
                                         <br />
                                     </div>
                                 )}
