@@ -137,7 +137,7 @@ export default class Home extends React.Component {
                     <Button variant='danger' onClick={() => this.handleButtonToggleAskModal(true)} style={{ height: '25px', paddingTop: '0' }}>Ask A Question</Button>
                     </center>
                     <AskQuestionModal content={this.textAnswer()} title={"Ask A Question"} showModal={this.state.showModal} close={() => this.handleButtonToggleAskModal(false)} /><br /><br />
-                <footer class="py-1 sticky-bottom" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black' }}>
+                <footer class="py-1 sticky-bottom" className='FAQFooter'>
                     <div class="container">
                         <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
                     </div>
