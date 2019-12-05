@@ -142,3 +142,81 @@
     border-radius: 25px;
     background-color: "red";
   }
+  
+  .CommentBox {
+    margin-left: 210px;
+     border:1px solid;
+      padding-left:10px;
+       padding-right:10px;
+        padding-top:10px;
+      padding-bottom:10px;
+  }
+
+  .AnswerCommentSeparator{
+    max-width: 60%;
+     background-color: black;
+      margin-left:200px;
+  }
+
+  .EditButton {
+    height: 25px!important;
+     padding-top: 0!important;
+      position: absolute!important;
+       right: 110px!important;
+  }
+
+  .CommentButton{
+    height: 25px!important;
+     padding-top: 0!important; 
+     margin-left: 100px!important;
+  }
+  
+  .FAQFooter {
+    background-color: #DFDFDF;
+     border-top: 2px solid;
+      border-bottom: 2px solid;
+       color: black;
+  }
+
+  .DeleteButton {
+    height: 25px!important;
+     padding-top: 0!important;
+      position: absolute!important;
+       right: 40px!important;
+  }
+
+  .EditAnswerText {
+    background-color: #EEEEEE;
+     height:50px; 
+     width:200px;
+  }
+
+  .AnswersSubheading {
+    margin-right: 40px;
+     margin-left: 40px;
+  }
+
+  .Separator {
+    max-width: 100%;
+     background-color: black;
+  }
+
+  .QuestionHeading {
+    background-color: #EEEEEE;
+     margin-left: 40px;
+      margin-right: 40px;
+  }
+
+  .QuestionSubheading {
+    margin-top: 45px;
+     margin-left: 10px;
+  }
+   
+  .FAQHeader {
+    background-color: #DFDFDF;
+     border-top: 2px solid;
+      border-bottom: 2px solid;
+       color: black;
+        padding-top: 0px;
+      padding-bottom: 0px;
+  }

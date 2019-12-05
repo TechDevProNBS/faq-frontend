@@ -86,7 +86,7 @@ export default class Answer extends React.Component {
         return (
             <div>
                 <body id="page-top">
-                    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black', paddingTop: '0px', paddingBottom: '0px' }}>
+                    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" className='FAQHeader'>
                         <div class="container">
                             <a class="navbar-brand js-scroll-trigger" href="/"><img
                                 src="Nationwide.png"
@@ -102,39 +102,40 @@ export default class Answer extends React.Component {
                     </nav>
                 </body>
                 <br />
-                <h3 style={{ marginTop: '45px', marginLeft: '10px' }}>Question:
+                <h3 className='QuestionSubheading'>Question:
                 </h3>
-                <h4 style={{ backgroundColor: '#EEEEEE', marginLeft: '40px', marginRight: '40px' }}> {sessionStorage.getItem('questions')}</h4><br />
+                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}</h4><br />
                 <div class="container site-container" style={{ marginTop: '0px', marginBottom: '30px' }}>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 style={{ marginRight: '40px', marginLeft: '40px' }}>Answers (Number of Answers): </h4><br />
-                            <div style={{ maxWidth: '100%', backgroundColor: 'black' }}>
+                            <h4 className='AnswersSubheading'>Answers (Number of Answers): </h4><br />
+                            <div className='Separator'>
                                             <hr />
                                         </div>
                             {
                                 this.state.RecentA.map((data) =>
                                     <div>
-                                        <span id={'answer' + data.a_id}> <text style={{ marginLeft: '80px', backgroundColor: '#EEEEEE' }}>{data.answer}</text></span>
+                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span><br /><br />
+                                        
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
-                                        <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '5px' }} class="arrow down"></i></Button>
+                                        <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
                                         (rating)
-                                      <Button variant='danger' size='sm' style={{ height: '25px', paddingTop: '0', position: 'absolute', right: '40px' }}>Delete</Button>
-                                        <Button variant='secondary' size='sm' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ height: '25px', paddingTop: '0', position: 'absolute', right: '110px' }}>Edit</Button><br /><br />
-                                        <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} style={{ height: '25px', paddingTop: '0', marginLeft: '100px' }}>Add Comment</Button><br /><br />
-
-                                        <text style={{ marginLeft: '40px' }}>Comment here</text>
+                                      <Button variant='danger' size='sm' className='DeleteButton'>Delete</Button>
+                                        <Button variant='secondary' size='sm' onClick={() => this.editAnswer(data.a_id, data.answer)} className='EditButton'>Edit</Button>
+                                        <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />                                  
+                                            <hr className='AnswerCommentSeparator' />
+                                        <br />
+                                        <text className='CommentBox'> Comment here </text>
                                         <br /><br />
-                                        <div style={{ maxWidth: '100%', backgroundColor: 'black' }}>
-                                            <hr />
-                                        </div>
+                                            <hr className='Separator'/>
+                                       
                                     </div>
                                 )}
                         </div>
                     </div>
                 </div>
                 <CommentModal content={this.textComment()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
-                <footer class="py-1 sticky-bottom footer" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black' }}>
+                <footer class="py-1 sticky-bottom footer" className='FAQFooter'>
                     <div class="container">
                         <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
                     </div>
