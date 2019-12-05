@@ -58,7 +58,7 @@ export default class Home extends React.Component {
 
     textAnswer = () => {
         return (
-            <TextArea style={{ maxWidth: '100%', minWidth: '100%' }} />
+            <TextArea id="textQuestion"style={{ maxWidth: '100%', minWidth: '100%' }} />
 
         );
     }

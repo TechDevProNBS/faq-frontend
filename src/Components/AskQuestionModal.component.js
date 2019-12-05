@@ -24,6 +24,33 @@ class AskQuestionsModal extends Component {
             showModal: nextProps.showModal
         })
     }
+    postQuestion = (e) => {
+        e.preventDefault();
+        let questionContent = document.getElementById("textQuestion").value
+        alert(questionContent)
+            let data = {
+                
+                "userID": 1,                                                                  //We create a variable called data and store what is currently in the state into it
+                "question": questionContent
+            }
+            fetch(`http://localhost:4001/Questions/PostQ`, {                                    //This is the fetch request that actually communicates with the backend
+                method: 'POST',                                                             //This defines the method as a POST method
+                headers: {
+                    'Content-Type': 'application/json',                                     //This converts it into JSON format
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {                                                         //Error handling
+                    if (response.status === 200) {
+                        window.location.replace(`http://localhost:3000/`);
+                    } else {
+                        alert('Failed to post QQQ');
+                    };
+                })
+            
+        }
+    
+
 
     render() {
         return (
@@ -43,7 +70,7 @@ class AskQuestionsModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     
-                    <Button variant='primary'> Submit
+                    <Button variant='primary' onClick={this.postQuestion}> Submit
                     </Button><br></br>
                     <Button variant='secondary' onClick={this.props.close ? this.props.close : this.close}> Close
                     </Button>
