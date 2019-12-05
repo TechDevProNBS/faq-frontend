@@ -14,6 +14,11 @@ export default class Answer extends React.Component {
             showIssueModal: true
         }
     }
+
+    answerStorage(a_id) {
+        sessionStorage.setItem('a_id', a_id)
+        this.handleButtonToggleCommentModal(true)
+    }
     handleButtonToggleAnswerModal = (toggle) => {
         this.setState({
             showModal1: toggle
@@ -83,8 +88,8 @@ export default class Answer extends React.Component {
                                       <Button variant='danger' style={{marginLeft:'5px', marginRight:'5px', height:'20px', width:'20px', paddingRight:'0', paddingLeft:'0',paddingTop:'0'}}><i style={{marginBottom:'5px'}}class="arrow down"></i></Button>
                                       (rating)
                                       <Button variant='danger' size='sm' style={{height: '25px', paddingTop: '0', position:'absolute', right:'40px'}}>Delete</Button><Button variant='secondary' size='sm' style={{height: '25px', paddingTop: '0', position:'absolute', right:'110px'}}>Edit</Button><br />
-                            <Button variant='primary' size='sm' onClick={() => this.handleButtonToggleCommentModal(true)} style={{ height: '25px', paddingTop: '0', marginLeft: '100px' }}>Add Comment</Button>
-                            <CommentModal content={this.textComment()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} /><br />
+                            <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} style={{ height: '25px', paddingTop: '0', marginLeft: '100px' }}>Add Comment</Button><br></br>
+                            
                             <text style={{marginLeft:'40px'}}>Comment here</text>
                             <br /><br/>
                              </div>
@@ -92,6 +97,7 @@ export default class Answer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <CommentModal content={this.textComment()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
                 <footer class="py-1 sticky-bottom footer" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black' }}>
                     <div class="container">
                         <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
