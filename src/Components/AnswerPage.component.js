@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import './css/FAQ.css'
 import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
