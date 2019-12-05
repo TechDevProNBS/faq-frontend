@@ -82,6 +82,7 @@
     left: 51%;
     margin-left: -50px;
   }
+
   ​
   .x-btn:hover {
     background-color: #FFFFFF;
@@ -98,4 +99,21 @@
     color: white;
     background-color: #004050;
     border-radius: .25rem;
+  }
+
+  i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+
+  .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
   }
