@@ -22,21 +22,21 @@ export default class Home extends React.Component {
         sessionStorage.setItem('q_id', q_id)
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         let dataUnanswered = ""
         let dataRecent = ""
 
-        fetch("http://localhost:4001/Questions/RecentQ")                         //Url from backend
+        await fetch("http://localhost:4001/Questions/RecentQ")                         //Url from backend
             .then(response => response.json())
             .then(dataRe => {
                 dataRecent = dataRe;
             })
-        fetch("http://localhost:4001/Questions/UnansweredQ")                                  //Url from backend
+        await fetch("http://localhost:4001/Questions/UnansweredQ")                                  //Url from backend
             .then(response => response.json())
             .then(dataUn => {
                 dataUnanswered = dataUn
             })
-        fetch("http://localhost:4001/Questions/TopRatedQ")                                  //Url from backend
+        await fetch("http://localhost:4001/Questions/TopRatedQ")                                  //Url from backend
             .then(response => response.json())
             .then(dataTop => {
 
