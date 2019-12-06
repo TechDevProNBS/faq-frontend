@@ -144,7 +144,7 @@
   }
   
   .CommentBox {
-    margin-left: 210px;
+    margin-left: 180px;
      border:1px solid;
       padding-left:10px;
        padding-right:10px;
@@ -155,20 +155,19 @@
   .AnswerCommentSeparator{
     max-width: 60%;
      background-color: black;
-      margin-left:200px;
+      margin-left:170px;
   }
 
   .EditButton {
     height: 25px!important;
      padding-top: 0!important;
-      position: absolute!important;
-       right: 110px!important;
+      margin-left: 15px;
   }
 
   .CommentButton{
     height: 25px!important;
      padding-top: 0!important; 
-     margin-left: 100px!important;
+     margin-left: 20px!important;
   }
   
   .FAQFooter {
@@ -181,8 +180,7 @@
   .DeleteButton {
     height: 25px!important;
      padding-top: 0!important;
-      position: absolute!important;
-       right: 40px!important;
+     margin-left: 15px;
   }
 
   .EditAnswerText {
