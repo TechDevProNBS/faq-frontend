@@ -82,6 +82,29 @@ export default class Answer extends React.Component {
                 })
             })
     }
+
+    answerStorage2(a_id) {
+        var a_id = sessionStorage.setItem('a_id',a_id);
+        this.removeAnswer()
+    }
+    removeAnswer(){
+        var a_id = sessionStorage.getItem('a_id');
+        fetch(`http://localhost:4001/Answers/DelA/`+a_id,{
+        method:'DELETE',
+        headers: {
+            'Content-Type':'application/json'
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            console.log('Answer Deleted');
+            window.location.reload();
+        } else {
+            alert('Failed to delete answer');
+        };
+    })
+}
+
     render() {
         return (
             <div>
@@ -116,7 +139,7 @@ export default class Answer extends React.Component {
                                 this.state.RecentA.map((data) =>
                                 <div>
                                 <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
-                                      <Button variant='danger' size='sm' className='DeleteButton'>Delete</Button>
+                                      <Button variant='danger' size='sm' onClick ={() => this.answerStorage2(data.a_id)} className='DeleteButton'>Delete</Button>
                                         <Button variant='secondary' size='sm' onClick={() => this.editAnswer(data.a_id, data.answer)} className='EditButton'>Edit</Button>
                                         <br /><br />
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
