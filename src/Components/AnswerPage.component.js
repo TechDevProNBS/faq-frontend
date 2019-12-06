@@ -11,6 +11,7 @@ export default class Answer extends React.Component {
         super();
         this.state = {
             RecentA: [],
+            RecentC: [],
             showIssueModal: true
         }
     }
@@ -75,24 +76,33 @@ export default class Answer extends React.Component {
 
 
     componentDidMount = async () => {
-        var answerdata = ""
+        let Alpha = ""
+        let Beta = ""
         var q_id = sessionStorage.getItem('q_id');
         await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
-            //Url from backend
             .then(response => response.json())
             .then(data => {
-                answerdata = data
+                Alpha = data
             })
+
         await fetch(`http://localhost:4001/Answers/CountA/${q_id}`)
             //Url from backend
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                Beta = data[0].hits
+                
+            })
+        await fetch(`http://localhost:4001/Comments/GetC/${q_id}`)
+            .then(response => response.json())
+            .then(dataC => {
+
                 this.setState({
-                    RecentA: answerdata,
-                    CountA: data[0].hits
+                    RecentC: dataC,
+                    RecentA: Alpha,
+                    CountA: Beta
                 })
             })
+
     }
 
     answerStorage2(a_id) {
@@ -153,7 +163,7 @@ export default class Answer extends React.Component {
                                         <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
-                                        <a href='#' onClick = {()=> this.answerStorage2(data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                        <a href='#' onClick={() => this.answerStorage2(data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
@@ -161,7 +171,21 @@ export default class Answer extends React.Component {
                                         <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />
                                         <hr className='AnswerCommentSeparator' />
                                         <br />
-                                        <text className='CommentBox'> Comment here </text>
+                                        {
+                                            this.state.RecentC.map((RecentC) => {
+                                                console.log(data.a_id + "..." + RecentC.a_id)
+                                                if (data.a_id == RecentC.a_id) {
+                                                    var element = <span id={'comment' + RecentC.c_id}> <text className='CommentText'>{RecentC.comment}</text></span>
+                                                }
+                                                return (
+                                                    <div>
+                                                        {element}
+                                                    </div>
+
+                                                )
+                                            }
+                                            )
+                                        }
                                         <br /><br />
                                         <hr className='Separator' />
 
@@ -173,7 +197,7 @@ export default class Answer extends React.Component {
                 <CommentModal content={this.textComment()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
                 <footer class="py-1 sticky-bottom footer" className='FAQFooter'>
                     <div class="container">
-                        <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
+                        <p class="m-0 text-center text-black">Copyright &copy; Max Hand 2019</p>
                     </div>
                 </footer>
             </div>
