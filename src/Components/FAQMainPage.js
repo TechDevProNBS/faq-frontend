@@ -185,7 +185,10 @@ export default class Home extends React.Component {
                                     this.state.TopRatedQ.map((data, index) =>
 
                                         <div>
-                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a><br />
+                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a>
+                                            
+                                        <a href='#' style={{ marginLeft: '20px', color:'red' }}>Edit</a>
+                                        <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
                                             <br />
                                         </div>
                                     )}
@@ -198,8 +201,10 @@ export default class Home extends React.Component {
                                 {
                                     this.state.UnansweredQ.map((data, index) =>
                                         <div>
-                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a><br />
-                                            <br />
+                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a>
+                                        <a href='#' style={{ marginLeft: '20px', color:'red' }}>Edit</a>
+                                        <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a>
+                                        <br /><br />
                                         </div>
                                     )}
                             </div>
@@ -211,8 +216,10 @@ export default class Home extends React.Component {
                                 {
                                     this.state.RecentQ.map((data, index) =>
                                         <div>
-                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a><br />
-                                            <br />
+                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a>
+                                        <a href='#' style={{ marginLeft: '20px', color:'red' }}>Edit</a>
+                                        <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a>
+                                        <br /><br /> 
                                         </div>
                                     )}
 

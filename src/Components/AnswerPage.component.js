@@ -175,7 +175,7 @@ export default class Answer extends React.Component {
                                             this.state.RecentC.map((RecentC) => {
                                                 console.log(data.a_id + "..." + RecentC.a_id)
                                                 if (data.a_id == RecentC.a_id) {
-                                                    var element = <span id={'comment' + RecentC.c_id}> <text className='CommentText'>{RecentC.comment}</text></span>
+                                                    var element = <span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text><br/><br/><br/></span>
                                                 }
                                                 return (
                                                     <div>
