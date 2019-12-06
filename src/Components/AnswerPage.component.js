@@ -72,6 +72,7 @@ export default class Answer extends React.Component {
         ref.appendChild(refConfirmButton)
     }
 
+
     componentDidMount = async () => {
         var answerdata = ""
         var q_id = sessionStorage.getItem('q_id');
@@ -92,7 +93,6 @@ export default class Answer extends React.Component {
                 })
             })
     }
-    
     
     render() {
         
@@ -129,6 +129,7 @@ export default class Answer extends React.Component {
                                 this.state.RecentA.map((data) =>
                                 <div>
                                 <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
+
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{marginLeft:'20px'}}>Edit</a>
                                       <a href='#' style={{marginLeft:'20px', marginRight:'20px'}}>Delete</a>
                                         <br /><br />
