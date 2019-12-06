@@ -42,8 +42,8 @@ export default class Answer extends React.Component {
         );
     }
 
-    editAnswer = (spanid, answer,) => {
-        
+    editAnswer = (spanid, answer, ) => {
+
         var ref = document.getElementById("answer" + spanid)
         ref.innerHTML = ""
         var refTextInput = document.createElement("TextArea");
@@ -65,8 +65,8 @@ export default class Answer extends React.Component {
             })
             window.location.replace(`http://localhost:3000/answer`)
         })
-        refTextInput.style.minWidth ="60%"
-        refTextInput.style.maxWidth ="60%"
+        refTextInput.style.minWidth = "60%"
+        refTextInput.style.maxWidth = "60%"
         refTextInput.style.marginLeft = "80px"
         refTextInput.value = answer
         ref.appendChild(refTextInput)
@@ -78,23 +78,45 @@ export default class Answer extends React.Component {
         var answerdata = ""
         var q_id = sessionStorage.getItem('q_id');
         await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
-        //Url from backend
-        .then(response => response.json())
-        .then(data => {
-            answerdata = data
-        })
+            //Url from backend
+            .then(response => response.json())
+            .then(data => {
+                answerdata = data
+            })
         await fetch(`http://localhost:4001/Answers/CountA/${q_id}`)
             //Url from backend
             .then(response => response.json())
             .then(data => {
                 console.log(data)
                 this.setState({
-                    RecentA:answerdata,
+                    RecentA: answerdata,
                     CountA: data[0].hits
                 })
             })
     }
-    
+
+    answerStorage2(a_id) {
+        var a_id = sessionStorage.setItem('a_id', a_id);
+        this.removeAnswer()
+    }
+    removeAnswer() {
+        var a_id = sessionStorage.getItem('a_id');
+        fetch(`http://localhost:4001/Answers/DelA/` + a_id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('Answer Deleted');
+                    window.location.reload();
+                } else {
+                    alert('Failed to delete answer');
+                };
+            })
+    }
+
     render() {
         console.log(this.state.countA)
         return (
@@ -124,26 +146,26 @@ export default class Answer extends React.Component {
                         <div class="col-lg-12">
                             <h4 className='AnswersSubheading'>Answers ({this.state.CountA}): </h4><br />
                             <div className='Separator'>
-                                            <hr />
-                                        </div>
+                                <hr />
+                            </div>
                             {
                                 this.state.RecentA.map((data) =>
-                                <div>
-                                <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
+                                    <div>
+                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
 
-                                        <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{marginLeft:'20px'}}>Edit</a>
-                                      <a href='#' style={{marginLeft:'20px', marginRight:'20px'}}>Delete</a>
+                                        <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
+                                        <a href='#' onClick = {()=> this.answerStorage2(data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
                                         (rating)
-                                        <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />                                  
-                                            <hr className='AnswerCommentSeparator' />
+                                        <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />
+                                        <hr className='AnswerCommentSeparator' />
                                         <br />
                                         <text className='CommentBox'> Comment here </text>
                                         <br /><br />
-                                            <hr className='Separator'/>
-                                       
+                                        <hr className='Separator' />
+
                                     </div>
                                 )}
                         </div>
