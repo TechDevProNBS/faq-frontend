@@ -114,14 +114,14 @@ export default class Answer extends React.Component {
                                         </div>
                             {
                                 this.state.RecentA.map((data) =>
-                                    <div>
-                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span><br /><br />
-                                        
+                                <div>
+                                <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
+                                      <Button variant='danger' size='sm' className='DeleteButton'>Delete</Button>
+                                        <Button variant='secondary' size='sm' onClick={() => this.editAnswer(data.a_id, data.answer)} className='EditButton'>Edit</Button>
+                                        <br /><br />
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
                                         (rating)
-                                      <Button variant='danger' size='sm' className='DeleteButton'>Delete</Button>
-                                        <Button variant='secondary' size='sm' onClick={() => this.editAnswer(data.a_id, data.answer)} className='EditButton'>Edit</Button>
                                         <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />                                  
                                             <hr className='AnswerCommentSeparator' />
                                         <br />
