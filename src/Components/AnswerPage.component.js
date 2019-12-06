@@ -42,7 +42,8 @@ export default class Answer extends React.Component {
         );
     }
 
-    editAnswer = (spanid, answer) => {
+    editAnswer = (spanid, answer,) => {
+        
         var ref = document.getElementById("answer" + spanid)
         ref.innerHTML = ""
         var refTextInput = document.createElement("TextArea");
@@ -86,7 +87,7 @@ export default class Answer extends React.Component {
             //Url from backend
             .then(response => response.json())
             .then(data => {
-                
+                console.log(data)
                 this.setState({
                     RecentA:answerdata,
                     CountA: data[0].hits
@@ -95,7 +96,7 @@ export default class Answer extends React.Component {
     }
     
     render() {
-        
+        console.log(this.state.countA)
         return (
             <div>
                 <body id="page-top">
