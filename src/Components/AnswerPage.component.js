@@ -96,7 +96,6 @@ export default class Answer extends React.Component {
     }
     
     render() {
-        console.log(this.state.countA)
         return (
             <div>
                 <body id="page-top">
