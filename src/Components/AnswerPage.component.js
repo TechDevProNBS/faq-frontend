@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import './css/FAQ.css'
 import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
+import DeleteModal from './DeleteAnswerModal.component'
 import { TextArea } from 'semantic-ui-react'
 
 export default class Answer extends React.Component {
@@ -30,6 +31,13 @@ export default class Answer extends React.Component {
             showModal: toggle
         });
     }
+    handleButtonToggleDeleteModal = (toggle, a_id) => {
+        this.setState({
+            showModal2: toggle
+        });
+        var a_id = sessionStorage.setItem('a_id', a_id);
+    }
+    
 
     textAnswer = () => {
         return (
@@ -105,27 +113,6 @@ export default class Answer extends React.Component {
 
     }
 
-    answerStorage2(a_id) {
-        var a_id = sessionStorage.setItem('a_id', a_id);
-        this.removeAnswer()
-    }
-    removeAnswer() {
-        var a_id = sessionStorage.getItem('a_id');
-        fetch(`http://localhost:4001/Answers/DelA/` + a_id, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    console.log('Answer Deleted');
-                    window.location.reload();
-                } else {
-                    alert('Failed to delete answer');
-                };
-            })
-    }
 
     render() {
         return (
@@ -163,7 +150,7 @@ export default class Answer extends React.Component {
                                         <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
-                                        <a href='#' onClick={() => this.answerStorage2(data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                        <a href='#' onClick={() => this.handleButtonToggleDeleteModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
@@ -173,7 +160,6 @@ export default class Answer extends React.Component {
                                         <br />
                                         {
                                             this.state.RecentC.map((RecentC) => {
-                                                console.log(data.a_id + "..." + RecentC.a_id)
                                                 if (data.a_id == RecentC.a_id) {
                                                     var element = <span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text><br/><br/><br/></span>
                                                 }
@@ -194,6 +180,7 @@ export default class Answer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <DeleteModal title={"Delete Confirmation"} showModal2={this.state.showModal2} close={() => this.handleButtonToggleDeleteModal(false)} />
                 <CommentModal content={this.textComment()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
                 <footer class="py-1 sticky-bottom footer" className='FAQFooter'>
                     <div class="container">

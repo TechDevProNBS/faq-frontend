@@ -41,6 +41,36 @@ export default class Home extends React.Component {
         sessionStorage.setItem('q_id', q_id)
     }
 
+    editQuestion = (q_id,spanid, question ) => {
+        var ref = document.getElementById(spanid)
+        ref.innerHTML = ""
+        var refTextInput1 = document.createElement("TextArea");
+        var refConfirmButton1 = document.createElement("input");
+        refConfirmButton1.type = "Button"
+        refConfirmButton1.value = "Confirm"
+        refConfirmButton1.className = "EditConfirm"
+        refConfirmButton1.addEventListener("click", function () {
+            let data = {
+                "q_id": q_id,
+                "updQ": refTextInput1.value
+            }
+            fetch(`http://localhost:4001/Questions/UpdateQ`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            window.location.replace(`http://localhost:3000/`)
+        })
+        refTextInput1.style.minWidth = "60%"
+        refTextInput1.style.maxWidth = "60%"
+        refTextInput1.style.marginLeft = "20px"
+        refTextInput1.value = question
+        ref.appendChild(refTextInput1)
+        ref.appendChild(refConfirmButton1)
+    }
+
     componentDidMount = async () => {
 
 
@@ -185,9 +215,9 @@ export default class Home extends React.Component {
                                     this.state.TopRatedQ.map((data, index) =>
 
                                         <div>
-                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a>
+                                           <span id={'tquestion' + data.q_id}> <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a></span>
                                             
-                                        <a href='#' style={{ marginLeft: '20px', color:'red' }}>Edit</a>
+                                        <a href='#' onClick={() => this.editQuestion(data.q_id,"tquestion" + data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
                                         <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
                                             <br />
                                         </div>
@@ -201,8 +231,8 @@ export default class Home extends React.Component {
                                 {
                                     this.state.UnansweredQ.map((data, index) =>
                                         <div>
-                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a>
-                                        <a href='#' style={{ marginLeft: '20px', color:'red' }}>Edit</a>
+                                          <span id={'uaquestion' + data.q_id}>   <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a></span>
+                                        <a href='#' onClick={() => this.editQuestion(data.q_id,"uaquestion"+ data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
                                         <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a>
                                         <br /><br />
                                         </div>
@@ -216,8 +246,8 @@ export default class Home extends React.Component {
                                 {
                                     this.state.RecentQ.map((data, index) =>
                                         <div>
-                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a>
-                                        <a href='#' style={{ marginLeft: '20px', color:'red' }}>Edit</a>
+                                           <span id={'rpquestion' + data.q_id}>  <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a></span>
+                                        <a href='#' onClick={() => this.editQuestion(data.q_id,"rpquestion"+data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
                                         <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a>
                                         <br /><br /> 
                                         </div>
