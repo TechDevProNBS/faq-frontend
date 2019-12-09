@@ -77,11 +77,17 @@ export default class Answer extends React.Component {
     componentDidMount = async () => {
         var answerdata = ""
         var q_id = sessionStorage.getItem('q_id');
+        var totalrating = ""
         await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
             //Url from backend
             .then(response => response.json())
             .then(data => {
                 answerdata = data
+            })
+            await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)
+            .then(response => response.json())
+            .then(data =>{
+                totalrating = data
             })
         await fetch(`http://localhost:4001/Answers/CountA/${q_id}`)
             //Url from backend
@@ -89,10 +95,12 @@ export default class Answer extends React.Component {
             .then(data => {
                 console.log(data)
                 this.setState({
+                    RecentB: totalrating,
                     RecentA: answerdata,
                     CountA: data[0].hits
                 })
             })
+        
     }
 
     answerStorage2(a_id) {
@@ -145,6 +153,7 @@ export default class Answer extends React.Component {
                     <div class="row">
                         <div class="col-lg-12">
                             <h4 className='AnswersSubheading'>Answers ({this.state.CountA}): </h4><br />
+                            <h4 className='AnswerRating'>Rating: ({this.state.RecentB}): </h4><br />
                             <div className='Separator'>
                                 <hr />
                             </div>
@@ -154,11 +163,11 @@ export default class Answer extends React.Component {
                                         <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
-                                        <a href='#' onClick = {()=> this.answerStorage2(data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                        <a href='#' onClick = {()=> console.log(this.answerStorage2(data.a_id))} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
-                                        (rating)
+                                        (Rating)
                                         <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />
                                         <hr className='AnswerCommentSeparator' />
                                         <br />
