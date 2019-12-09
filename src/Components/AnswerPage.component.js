@@ -59,7 +59,7 @@ export default class Answer extends React.Component {
         );
     }
 
-    editAnswer = (spanid, answer, ) => {
+    editAnswer = (spanid, answer ) => {
 
         var ref = document.getElementById("answer" + spanid)
         ref.innerHTML = ""
@@ -84,7 +84,7 @@ export default class Answer extends React.Component {
         })
         refTextInput.style.minWidth = "60%"
         refTextInput.style.maxWidth = "60%"
-        refTextInput.style.marginLeft = "80px"
+        refTextInput.style.marginLeft = "20px"
         refTextInput.value = answer
         ref.appendChild(refTextInput)
         ref.appendChild(refConfirmButton)
@@ -113,8 +113,8 @@ export default class Answer extends React.Component {
             })
             window.location.replace(`http://localhost:3000/answer`)
         })
-        refTextInput.style.minWidth = "60%"
-        refTextInput.style.maxWidth = "60%"
+        refTextInput.style.minWidth = "40%"
+        refTextInput.style.maxWidth = "40%"
         refTextInput.style.marginLeft = "80px"
         refTextInput.value = comment
         ref.appendChild(refTextInput)
@@ -216,7 +216,7 @@ export default class Answer extends React.Component {
                                         {
                                             this.state.RecentC.map((RecentC) => {
                                                 if (data.a_id == RecentC.a_id) {
-                                                    var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text><br/></span>
+                                                    var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text></span><br/>
                                                     <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
                                                     <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
                                                     <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
