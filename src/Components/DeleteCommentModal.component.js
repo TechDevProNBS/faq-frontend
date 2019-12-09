@@ -3,15 +3,15 @@ import {Button} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import './css/FAQ.css'
 
-class DeleteAnswerModal extends Component {
+class DeleteCommentModal extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
-            showModal2: this.props.showModal2,
+            showModal3: this.props.showModal3,
             title: this.props.title
         };
         this.close = () => {
-            this.setState({ showModal2: this.props.showModal2 });
+            this.setState({ showModal3: this.props.showModal3 });
         };
         /* Function not used
         this.open = () => {
@@ -20,13 +20,13 @@ class DeleteAnswerModal extends Component {
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
-            showModal2: nextProps.showModal2
+            showModal3: nextProps.showModal3
         })
     }
    
-    removeAnswer() {
-        var a_id = sessionStorage.getItem('a_id');
-        fetch(`http://localhost:4001/Answers/DelA/` + a_id, {
+    removeComment() {
+        var c_id = sessionStorage.getItem('c_id');
+        fetch(`http://localhost:4001/Comments/DelC/` + c_id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,10 +34,10 @@ class DeleteAnswerModal extends Component {
         })
             .then(response => {
                 if (response.status === 200) {
-                    console.log('Answer Deleted');
+                    console.log('Comment Deleted');
                     window.location.reload();
                 } else {
-                    alert('Failed to delete answer');
+                    alert('Failed to delete comment');
                 };
             })
     }
@@ -46,7 +46,7 @@ class DeleteAnswerModal extends Component {
     render() {
         return (
             <Modal
-                show={this.state.showModal2}
+                show={this.state.showModal3}
                 onHide={this.props.close ? this.props.close : this.close}
                 backdrop={true}
                 backdropClassName="backdrop-style"
@@ -57,7 +57,7 @@ class DeleteAnswerModal extends Component {
                     <h4 id="modal-label" className="overlay-title">Delete Confirmation</h4>
                 </Modal.Header>
                 <Modal.Footer>
-                    <Button variant='danger' onClick={this.removeAnswer}> Confirm
+                    <Button variant='danger' onClick={this.removeComment}> Confirm
                     </Button><br></br>
                     <Button variant='secondary' onClick={this.props.close ? this.props.close : this.close}> Close
                     </Button>
@@ -66,4 +66,4 @@ class DeleteAnswerModal extends Component {
         );
     }
 }
-export default DeleteAnswerModal;
+export default DeleteCommentModal;
