@@ -88,6 +88,61 @@ export default class Answer extends React.Component {
         ref.appendChild(refConfirmButton)
     }
 
+    editQuestionRating = async (id) => {
+        let currentRating = ""
+        let q_id = sessionStorage.getItem('q_id')
+        await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)                                  //Url from backend
+            .then(response => response.json())
+            .then(dataTop => {
+                
+                currentRating = dataTop
+            })
+            
+       if(id=="UP"){currentRating=currentRating+1}
+      else if(id=="DOWN"){currentRating=currentRating-1}
+       
+       let updateRating = {
+        "rating": currentRating,
+        "q_id":q_id,
+        "u_id":24
+       }
+      await fetch(`http://localhost:9001/Questions/EditQuestionRating`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateRating)
+    })
+   
+    }
+
+    editAnswerRating = async (vote, a_id) => {
+        let currentRating = ""
+        await fetch(`http://localhost:9001/Answers/TotalRatings/${a_id}`)                                  //Url from backend
+            .then(response => response.json())
+            .then(dataTop => {
+                
+                currentRating = dataTop
+            })
+            
+       if(vote=="UP"){currentRating=currentRating+1}
+      else if(vote=="DOWN"){currentRating=currentRating-1}
+       
+       var updateRating = {
+        "rating": currentRating,
+        "a_id":a_id,
+        "u_id":24
+       }
+      await fetch(`http://localhost:9001/Answers/EditAnswerRating`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateRating)
+    })
+            console.log(currentRating)
+    }
+    
 
     componentDidMount = async () => {
         let Alpha = ""
@@ -154,8 +209,8 @@ export default class Answer extends React.Component {
                 <br />
                 <h3 className='QuestionSubheading'>Question:
                 </h3>
-                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
-                    <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' id="upVoteQ" onClick={() => this.editQuestionRating("UP")} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
+                    <Button variant='danger'  id="dwnVoteQ" onClick={() => this.editQuestionRating("DOWN")}  className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
                     (rating)<br /></h4>
                 <text variant='secondary' style={{ marginLeft: '40px' }}>posted on: {sessionStorage.getItem('postDQ')} @ {sessionStorage.getItem('postTQ')}</text>
                 <div class="container site-container" style={{ marginTop: '20px', marginBottom: '30px' }}>
@@ -174,8 +229,8 @@ export default class Answer extends React.Component {
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
                                         <a href='#' onClick={() => this.handleButtonToggleDeleteModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
-                                        <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
-                                        <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                                        <Button variant='primary' onClick={() => this.editAnswerRating("UP",data.a_id)} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
+                                        <Button variant='danger' onClick={() => this.editAnswerRating("DOWN", data.a_id)} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
                                         (rating)
                                         <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />
                                         <hr className='AnswerCommentSeparator' />
