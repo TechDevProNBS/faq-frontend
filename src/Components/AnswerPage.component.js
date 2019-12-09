@@ -152,7 +152,9 @@ export default class Answer extends React.Component {
                 <br />
                 <h3 className='QuestionSubheading'>Question:
                 </h3>
-                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}</h4><br />
+                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
+                                        <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                                        (rating)<br /></h4>
                 <div class="container site-container" style={{ marginTop: '0px', marginBottom: '30px' }}>
                     <div class="row">
                         <div class="col-lg-12">
