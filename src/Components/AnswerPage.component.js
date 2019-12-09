@@ -21,7 +21,7 @@ export default class Answer extends React.Component {
         sessionStorage.setItem('a_id', a_id)
         this.handleButtonToggleCommentModal(true)
     }
-    handleButtonToggleDeleteModal = (toggle,a_id) => {
+    handleButtonToggleDeleteModal = (toggle, a_id) => {
         this.setState({
             showModal2: toggle
         });
@@ -43,7 +43,7 @@ export default class Answer extends React.Component {
         });
         var a_id = sessionStorage.setItem('a_id', a_id);
     }
-    
+
 
     textAnswer = () => {
         return (
@@ -96,7 +96,9 @@ export default class Answer extends React.Component {
         var q_id = sessionStorage.getItem('q_id');
         await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
             .then(response => response.json())
+
             .then(data => {
+                console.log(data)
                 Alpha = data
             })
 
@@ -105,28 +107,28 @@ export default class Answer extends React.Component {
             .then(response => response.json())
             .then(data => {
                 Beta = data[0].hits
-                
+
             })
-            if(Beta>0){
-                fetch(`http://localhost:4001/Comments/GetC/${q_id}`)
-            .then(response => response.json())
-            .then(dataC => {
-                Gamma = dataC
-                this.setState({
-                    RecentC: dataC,
-                    RecentA: Alpha,
-                    CountA: Beta
+        if (Beta > 0) {
+            fetch(`http://localhost:4001/Comments/GetC/${q_id}`)
+                .then(response => response.json())
+                .then(dataC => {
+                    Gamma = dataC
+                    this.setState({
+                        RecentC: dataC,
+                        RecentA: Alpha,
+                        CountA: Beta
+                    })
                 })
+        }
+        else {
+            this.setState({
+                RecentC: Gamma,
+                RecentA: Alpha,
+                CountA: 0
             })
-            }
-            else{
-                this.setState({
-                    RecentC: Gamma,
-                    RecentA: Alpha,
-                    CountA: 0
-                })
-            }
-       
+        }
+
 
     }
 
@@ -153,9 +155,9 @@ export default class Answer extends React.Component {
                 <h3 className='QuestionSubheading'>Question:
                 </h3>
                 <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
-                                        <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
-                                        (rating)<br /></h4>
-                                        <text variant='secondary' style={{marginLeft:'40px'}}>posted on: {sessionStorage.getItem('postDQ')} at {sessionStorage.getItem('postTQ')}</text>
+                    <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                    (rating)<br /></h4>
+                <text variant='secondary' style={{ marginLeft: '40px' }}>posted on: {sessionStorage.getItem('postDQ')} @ {sessionStorage.getItem('postTQ')}</text>
                 <div class="container site-container" style={{ marginTop: '20px', marginBottom: '30px' }}>
                     <div class="row">
                         <div class="col-lg-12">
@@ -166,7 +168,8 @@ export default class Answer extends React.Component {
                             {
                                 this.state.RecentA.map((data) =>
                                     <div>
-                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
+                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>< br/>
+                                        <span>posted on: {data.niceDate} @ {data.niceTime}</span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
                                         <a href='#' onClick={() => this.handleButtonToggleDeleteModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
@@ -180,11 +183,20 @@ export default class Answer extends React.Component {
                                         {
                                             this.state.RecentC.map((RecentC) => {
                                                 if (data.a_id == RecentC.a_id) {
-                                                    var element = <span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text><br/><br/><br/></span>
+                                                    var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text><br/></span>
+                                                    <span style={{ marginLeft: '55px' }}>posted on: {data.niceDate}</span><br />
+                                                    <span style={{ marginLeft: '55px' }}>@ {data.niceTime}</span>
+                                                    <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
+                                                    <a href='#' onClick={() => this.handleButtonToggleDeleteModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                                    <br/><br/><br/>
+                                                    
+                                                    </div>
+                                                    
                                                 }
                                                 return (
                                                     <div>
                                                         {element}
+                                                        
                                                     </div>
 
                                                 )

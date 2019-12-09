@@ -144,14 +144,15 @@
     background-color: "red";
   }
   
-  .CommentBox {
-    margin-left: 100px;
-      padding-left:10px;
-       padding-right:10px;
-        padding-top:10px;
-      padding-bottom:10px;
-      background-color: #F1F1F1;
-  }
+  
+.CommentBox {
+  margin-left: 50px;
+    padding-left:4px;
+     padding-right:4px;
+      padding-top:3px;
+    padding-bottom:3px;
+    background-color: #F1F1F1;
+}
 
   .AnswerCommentSeparator{
     max-width: 50%;
