@@ -3,7 +3,8 @@ import { Button } from 'react-bootstrap';
 import './css/FAQ.css'
 import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
-import DeleteModal from './DeleteAnswerModal.component'
+import DeleteAnswerModal from './DeleteAnswerModal.component'
+import DeleteCommentModal from './DeleteCommentModal.component'
 import { TextArea } from 'semantic-ui-react'
 
 export default class Answer extends React.Component {
@@ -21,27 +22,28 @@ export default class Answer extends React.Component {
         sessionStorage.setItem('a_id', a_id)
         this.handleButtonToggleCommentModal(true)
     }
-    handleButtonToggleDeleteModal = (toggle, a_id) => {
+    
+    handleButtonToggleCommentModal = (toggle) => {
         this.setState({
-            showModal2: toggle
+            showModal: toggle
         });
-        var a_id = sessionStorage.setItem('a_id', a_id);
     }
     handleButtonToggleAnswerModal = (toggle) => {
         this.setState({
             showModal1: toggle
         });
     }
-    handleButtonToggleCommentModal = (toggle) => {
-        this.setState({
-            showModal: toggle
-        });
-    }
-    handleButtonToggleDeleteModal = (toggle, a_id) => {
+    handleButtonToggleDeleteAnswerModal = (toggle, a_id) => {
         this.setState({
             showModal2: toggle
         });
         var a_id = sessionStorage.setItem('a_id', a_id);
+    }
+    handleButtonToggleDeleteCommentModal = (toggle, c_id) => {
+        this.setState({
+            showModal3: toggle
+        });
+        var c_id = sessionStorage.setItem('c_id', c_id);
     }
 
 
@@ -84,6 +86,37 @@ export default class Answer extends React.Component {
         refTextInput.style.maxWidth = "60%"
         refTextInput.style.marginLeft = "80px"
         refTextInput.value = answer
+        ref.appendChild(refTextInput)
+        ref.appendChild(refConfirmButton)
+    }
+
+    editComment = (spanid, comment ) => {
+
+        var ref = document.getElementById("comment" + spanid)
+        ref.innerHTML = ""
+        var refTextInput = document.createElement("TextArea");
+        var refConfirmButton = document.createElement("input");
+        refConfirmButton.type = "Button"
+        refConfirmButton.value = "Confirm"
+        refConfirmButton.className = "EditConfirm"
+        refConfirmButton.addEventListener("click", function () {
+            let data = {
+                "c_id": spanid,
+                "updC": refTextInput.value
+            }
+            fetch(`http://localhost:4001/Comments/UpdateC`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            window.location.replace(`http://localhost:3000/answer`)
+        })
+        refTextInput.style.minWidth = "60%"
+        refTextInput.style.maxWidth = "60%"
+        refTextInput.style.marginLeft = "80px"
+        refTextInput.value = comment
         ref.appendChild(refTextInput)
         ref.appendChild(refConfirmButton)
     }
@@ -172,7 +205,7 @@ export default class Answer extends React.Component {
                                         <span>posted on: {data.niceDate} @ {data.niceTime}</span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
-                                        <a href='#' onClick={() => this.handleButtonToggleDeleteModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                        <a href='#' onClick={() => this.handleButtonToggleDeleteAnswerModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
@@ -186,8 +219,8 @@ export default class Answer extends React.Component {
                                                     var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text><br/></span>
                                                     <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
                                                     <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
-                                                    <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
-                                                    <a href='#' onClick={() => this.handleButtonToggleDeleteModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                                    <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
+                                                    <a href='#' onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                                     <br/><br/><br/>
                                                     
                                                     </div>
@@ -195,8 +228,7 @@ export default class Answer extends React.Component {
                                                 }
                                                 return (
                                                     <div>
-                                                        {element}
-                                                        
+                                                        {element}                                                        
                                                     </div>
 
                                                 )
@@ -211,11 +243,12 @@ export default class Answer extends React.Component {
                         </div>
                     </div>
                 </div>
-                <DeleteModal title={"Delete Confirmation"} showModal2={this.state.showModal2} close={() => this.handleButtonToggleDeleteModal(false)} />
+                <DeleteAnswerModal title={"Delete Confirmation"} showModal2={this.state.showModal2} close={() => this.handleButtonToggleDeleteAnswerModal(false)} />
+                <DeleteCommentModal title={"Delete Confirmation"} showModal3={this.state.showModal3} close={() => this.handleButtonToggleDeleteCommentModal(false)} />
                 <CommentModal content={this.textComment()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
                 <footer class="py-1 sticky-bottom footer" className='FAQFooter'>
                     <div class="container">
-                        <p class="m-0 text-center text-black">Copyright &copy; Max Hand 2019</p>
+                        <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
                     </div>
                 </footer>
             </div>
