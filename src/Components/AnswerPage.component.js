@@ -21,6 +21,12 @@ export default class Answer extends React.Component {
         sessionStorage.setItem('a_id', a_id)
         this.handleButtonToggleCommentModal(true)
     }
+    handleButtonToggleDeleteModal = (toggle,a_id) => {
+        this.setState({
+            showModal2: toggle
+        });
+        var a_id = sessionStorage.setItem('a_id', a_id);
+    }
     handleButtonToggleAnswerModal = (toggle) => {
         this.setState({
             showModal1: toggle
@@ -86,6 +92,7 @@ export default class Answer extends React.Component {
     componentDidMount = async () => {
         let Alpha = ""
         let Beta = ""
+        let Gamma = ""
         var q_id = sessionStorage.getItem('q_id');
         await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
             .then(response => response.json())
@@ -100,19 +107,28 @@ export default class Answer extends React.Component {
                 Beta = data[0].hits
                 
             })
-        await fetch(`http://localhost:4001/Comments/GetC/${q_id}`)
+            if(Beta>0){
+                fetch(`http://localhost:4001/Comments/GetC/${q_id}`)
             .then(response => response.json())
             .then(dataC => {
-
+                Gamma = dataC
                 this.setState({
                     RecentC: dataC,
                     RecentA: Alpha,
                     CountA: Beta
                 })
             })
+            }
+            else{
+                this.setState({
+                    RecentC: Gamma,
+                    RecentA: Alpha,
+                    CountA: 0
+                })
+            }
+       
 
     }
-
 
     render() {
         return (

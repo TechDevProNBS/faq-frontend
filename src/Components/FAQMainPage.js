@@ -2,18 +2,20 @@ import React from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap'
 import './css/FAQ.css'
 import AskQuestionModal from './AskQuestionModal.component'
+import DeleteQuestionModal from './DeleteQuestionModal.component'
 import { TextArea } from 'semantic-ui-react'
 
 export default class Home extends React.Component {
     constructor() {
         super();
-        sessionStorage.setItem('search', 2)
+        
 
         this.state = {                                                        //this.state represent the rendered values, i.e. what’s currently on the screen
             RecentQ: [],
             UnansweredQ: [],
             TopRatedQ: [],
-            showIssueModal: true
+            showIssueModal: true,
+            search:false
             //Name of what you want 
         }
     }
@@ -26,20 +28,32 @@ export default class Home extends React.Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({
-                    filteredResults: data
+                    filteredResults: data,
+                    search:true
                 })
-                sessionStorage.setItem('search', 1)
+            
             })
     }
 
+    handleButtonToggleDeleteQuestionModal = (toggle,q_id) => {
+        this.setState({
+            showModalq: toggle
+            
+        });
+        sessionStorage.setItem('q_id', q_id)
+    }
     renderHomepage() {
-        sessionStorage.setItem('search', 2)
+        this.setState({
+            filteredResults: this.state.filteredResults,
+            search:true
+        })
     }
 
     Qstorage(question, q_id) {
         sessionStorage.setItem('questions', question)
         sessionStorage.setItem('q_id', q_id)
     }
+    
 
     editQuestion = (q_id,spanid, question ) => {
         var ref = document.getElementById(spanid)
@@ -99,6 +113,7 @@ export default class Home extends React.Component {
             })
     }
 
+    
     handleButtonToggleAskModal = (toggle) => {
 
         this.setState({
@@ -122,7 +137,7 @@ export default class Home extends React.Component {
         //e.preventDefault()
     }
     render() {
-        if (sessionStorage.getItem('search') == 1) {
+        if (this.state.search==true) {
             return (
                 <div>
                     <body id="page-top">
@@ -179,7 +194,7 @@ export default class Home extends React.Component {
                 </div>
             )
         }
-        else if (sessionStorage.getItem('search') == 2) {
+        else {
             return (
                 <div>
                     <body id="page-top">
@@ -213,12 +228,14 @@ export default class Home extends React.Component {
                                 <p class="lead"></p>
                                 {
                                     this.state.TopRatedQ.map((data, index) =>
-
+                                        
                                         <div>
+
                                            <span id={'tquestion' + data.q_id}> <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a></span>
                                             
                                         <a href='#' onClick={() => this.editQuestion(data.q_id,"tquestion" + data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
-                                        <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
+                                        <a href='#'onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
+
                                             <br />
                                         </div>
                                     )}
@@ -233,7 +250,7 @@ export default class Home extends React.Component {
                                         <div>
                                           <span id={'uaquestion' + data.q_id}>   <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a></span>
                                         <a href='#' onClick={() => this.editQuestion(data.q_id,"uaquestion"+ data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
-                                        <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a>
+                                        <a href='#' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
                                         <br /><br />
                                         </div>
                                     )}
@@ -248,7 +265,7 @@ export default class Home extends React.Component {
                                         <div>
                                            <span id={'rpquestion' + data.q_id}>  <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id)}>{index + 1}) {data.question}</a></span>
                                         <a href='#' onClick={() => this.editQuestion(data.q_id,"rpquestion"+data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
-                                        <a href='#' style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a>
+                                        <a href='#' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br/>
                                         <br /><br /> 
                                         </div>
                                     )}
@@ -256,7 +273,7 @@ export default class Home extends React.Component {
                             </div>
                         </div>
                     </div>
-
+                    <DeleteQuestionModal title={"Delete Confirmation"} showModalq={this.state.showModalq} close={() => this.handleButtonToggleDeleteQuestionModal(false)} />
                     <footer class="py-1 sticky-bottom" className='FAQFooter'>
                         <div class="container">
                             <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
