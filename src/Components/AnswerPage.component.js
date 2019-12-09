@@ -3,6 +3,8 @@ import { Button } from 'react-bootstrap';
 import './css/FAQ.css'
 import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
+import DeleteAnswerModal from './DeleteAnswerModal.component'
+import DeleteCommentModal from './DeleteCommentModal.component'
 import { TextArea } from 'semantic-ui-react'
 
 export default class Answer extends React.Component {
@@ -11,6 +13,7 @@ export default class Answer extends React.Component {
         super();
         this.state = {
             RecentA: [],
+            RecentC: [],
             showIssueModal: true
         }
     }
@@ -19,16 +22,30 @@ export default class Answer extends React.Component {
         sessionStorage.setItem('a_id', a_id)
         this.handleButtonToggleCommentModal(true)
     }
-    handleButtonToggleAnswerModal = (toggle) => {
-        this.setState({
-            showModal1: toggle
-        });
-    }
+    
     handleButtonToggleCommentModal = (toggle) => {
         this.setState({
             showModal: toggle
         });
     }
+    handleButtonToggleAnswerModal = (toggle) => {
+        this.setState({
+            showModal1: toggle
+        });
+    }
+    handleButtonToggleDeleteAnswerModal = (toggle, a_id) => {
+        this.setState({
+            showModal2: toggle
+        });
+        var a_id = sessionStorage.setItem('a_id', a_id);
+    }
+    handleButtonToggleDeleteCommentModal = (toggle, c_id) => {
+        this.setState({
+            showModal3: toggle
+        });
+        var c_id = sessionStorage.setItem('c_id', c_id);
+    }
+
 
     textAnswer = () => {
         return (
@@ -42,7 +59,7 @@ export default class Answer extends React.Component {
         );
     }
 
-    editAnswer = (spanid, answer, ) => {
+    editAnswer = (spanid, answer ) => {
 
         var ref = document.getElementById("answer" + spanid)
         ref.innerHTML = ""
@@ -67,66 +84,159 @@ export default class Answer extends React.Component {
         })
         refTextInput.style.minWidth = "60%"
         refTextInput.style.maxWidth = "60%"
-        refTextInput.style.marginLeft = "80px"
+        refTextInput.style.marginLeft = "20px"
         refTextInput.value = answer
+        ref.appendChild(refTextInput)
+        ref.appendChild(refConfirmButton)
+    }
+    editQuestionRating = async (id) => {
+        let currentRating = ""
+        let q_id = sessionStorage.getItem('q_id')
+        await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)                                  //Url from backend
+            .then(response => response.json())
+            .then(dataTop => {
+                
+                currentRating = dataTop
+            })
+            
+       if(id=="UP"){currentRating=currentRating+1}
+      else if(id=="DOWN"){currentRating=currentRating-1}
+       
+       let updateRating = {
+        "rating": currentRating,
+        "q_id":q_id,
+        "u_id":24
+       }
+      await fetch(`http://localhost:9001/Questions/EditQuestionRating`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateRating)
+    })
+   
+    }
+
+    editAnswerRating = async (vote, a_id) => {
+        let currentRating = ""
+        await fetch(`http://localhost:9001/Answers/TotalRatings/${a_id}`)                                  //Url from backend
+            .then(response => response.json())
+            .then(dataTop => {
+                
+                currentRating = dataTop
+            })
+            
+       if(vote=="UP"){currentRating=currentRating+1}
+      else if(vote=="DOWN"){currentRating=currentRating-1}
+       
+       var updateRating = {
+        "rating": currentRating,
+        "a_id":a_id,
+        "u_id":24
+       }
+      await fetch(`http://localhost:9001/Answers/EditAnswerRating`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateRating)
+    })
+            console.log(currentRating)
+    }
+  
+    editComment = (spanid, comment ) => {
+
+        var ref = document.getElementById("comment" + spanid)
+        ref.innerHTML = ""
+        var refTextInput = document.createElement("TextArea");
+        var refConfirmButton = document.createElement("input");
+        refConfirmButton.type = "Button"
+        refConfirmButton.value = "Confirm"
+        refConfirmButton.className = "EditConfirm"
+        refConfirmButton.addEventListener("click", function () {
+            let data = {
+                "c_id": spanid,
+                "updC": refTextInput.value
+            }
+            fetch(`http://localhost:4001/Comments/UpdateC`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            window.location.replace(`http://localhost:3000/answer`)
+        })
+        refTextInput.style.minWidth = "40%"
+        refTextInput.style.maxWidth = "40%"
+        refTextInput.style.marginLeft = "80px"
+        refTextInput.value = comment
         ref.appendChild(refTextInput)
         ref.appendChild(refConfirmButton)
     }
 
 
+
     componentDidMount = async () => {
-        var answerdata = ""
+        let Alpha = ""
+        let Beta = ""
+        let Gamma = ""
         var q_id = sessionStorage.getItem('q_id');
         var totalrating = ""
         await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
-            //Url from backend
             .then(response => response.json())
+
             .then(data => {
-                answerdata = data
+                console.log(data)
+                Alpha = data
             })
+      
             await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)
             .then(response => response.json())
             .then(data =>{
                 totalrating = data
             })
+
         await fetch(`http://localhost:4001/Answers/CountA/${q_id}`)
             //Url from backend
             .then(response => response.json())
             .then(data => {
+
                 console.log(data)
                 this.setState({
                     RecentB: totalrating,
                     RecentA: answerdata,
                     CountA: data[0].hits
+
+                Beta = data[0].hits
+
+            })
+        if (Beta > 0) {
+            fetch(`http://localhost:4001/Comments/GetC/${q_id}`)
+                .then(response => response.json())
+                .then(dataC => {
+                    Gamma = dataC
+                    this.setState({
+                        RecentC: dataC,
+                        RecentA: Alpha,
+                        CountA: Beta
+                    })
                 })
+        }
+        else {
+            this.setState({
+                RecentC: Gamma,
+                RecentA: Alpha,
+                CountA: 0
             })
         
     }
+        }
 
-    answerStorage2(a_id) {
-        var a_id = sessionStorage.setItem('a_id', a_id);
-        this.removeAnswer()
-    }
-    removeAnswer() {
-        var a_id = sessionStorage.getItem('a_id');
-        fetch(`http://localhost:4001/Answers/DelA/` + a_id, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    console.log('Answer Deleted');
-                    window.location.reload();
-                } else {
-                    alert('Failed to delete answer');
-                };
-            })
+
     }
 
     render() {
-        console.log(this.state.countA)
         return (
             <div>
                 <body id="page-top">
@@ -148,8 +258,11 @@ export default class Answer extends React.Component {
                 <br />
                 <h3 className='QuestionSubheading'>Question:
                 </h3>
-                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}</h4><br />
-                <div class="container site-container" style={{ marginTop: '0px', marginBottom: '30px' }}>
+                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' id="upVoteQ" onClick={() => this.editQuestionRating("UP")} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
+                    <Button variant='danger'  id="dwnVoteQ" onClick={() => this.editQuestionRating("DOWN")}  className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                    (rating)<br /></h4>
+                <text variant='secondary' style={{ marginLeft: '40px' }}>posted on: {sessionStorage.getItem('postDQ')} @ {sessionStorage.getItem('postTQ')}</text>
+                <div class="container site-container" style={{ marginTop: '20px', marginBottom: '30px' }}>
                     <div class="row">
                         <div class="col-lg-12">
                             <h4 className='AnswersSubheading'>Answers ({this.state.CountA}): </h4><br />
@@ -160,18 +273,48 @@ export default class Answer extends React.Component {
                             {
                                 this.state.RecentA.map((data) =>
                                     <div>
-                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>
+                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>< br/>
+                                        <span>posted on: {data.niceDate} @ {data.niceTime}</span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
+
                                         <a href='#' onClick = {()=> console.log(this.answerStorage2(data.a_id))} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
                                         <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
                                         (Rating)
+
+                                        <a href='#' onClick={() => this.handleButtonToggleDeleteAnswerModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                        <br /><br />
+                                        <Button variant='primary' onClick={() => this.editAnswerRating("UP",data.a_id)} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
+                                        <Button variant='danger' onClick={() => this.editAnswerRating("DOWN", data.a_id)} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                                        (rating)
+
                                         <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />
                                         <hr className='AnswerCommentSeparator' />
                                         <br />
-                                        <text className='CommentBox'> Comment here </text>
+                                        {
+                                            this.state.RecentC.map((RecentC) => {
+                                                if (data.a_id == RecentC.a_id) {
+                                                    var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text></span><br/>
+                                                    <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
+                                                    <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
+                                                    <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
+                                                    <a href='#' onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                                    <br/><br/><br/>
+                                                    
+                                                    </div>
+                                                    
+                                                }
+                                                return (
+                                                    <div>
+                                                        {element}                                                        
+                                                    </div>
+
+                                                )
+                                            }
+                                            )
+                                        }
                                         <br /><br />
                                         <hr className='Separator' />
 
@@ -180,6 +323,8 @@ export default class Answer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <DeleteAnswerModal title={"Delete Confirmation"} showModal2={this.state.showModal2} close={() => this.handleButtonToggleDeleteAnswerModal(false)} />
+                <DeleteCommentModal title={"Delete Confirmation"} showModal3={this.state.showModal3} close={() => this.handleButtonToggleDeleteCommentModal(false)} />
                 <CommentModal content={this.textComment()} title={"Add A Comment"} showModal={this.state.showModal} close={() => this.handleButtonToggleCommentModal(false)} />
                 <footer class="py-1 sticky-bottom footer" className='FAQFooter'>
                     <div class="container">
