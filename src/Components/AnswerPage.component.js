@@ -217,8 +217,8 @@ export default class Answer extends React.Component {
                                             this.state.RecentC.map((RecentC) => {
                                                 if (data.a_id == RecentC.a_id) {
                                                     var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text><br/></span>
-                                                    <span style={{ marginLeft: '55px' }}>posted on: {data.niceDate}</span><br />
-                                                    <span style={{ marginLeft: '55px' }}>@ {data.niceTime}</span>
+                                                    <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
+                                                    <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
                                                     <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
                                                     <a href='#' onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                                     <br/><br/><br/>
