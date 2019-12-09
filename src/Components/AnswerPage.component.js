@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import './css/FAQ.css'
 import AnswerQuestionsModal from './AnswerModal.component'
 import CommentModal from './CommentModal.component'
-import DeleteModal from './DeleteModal.component'
+import DeleteModal from './DeleteAnswerModal.component'
 import { TextArea } from 'semantic-ui-react'
 
 export default class Answer extends React.Component {
@@ -37,6 +37,13 @@ export default class Answer extends React.Component {
             showModal: toggle
         });
     }
+    handleButtonToggleDeleteModal = (toggle, a_id) => {
+        this.setState({
+            showModal2: toggle
+        });
+        var a_id = sessionStorage.setItem('a_id', a_id);
+    }
+    
 
     textAnswer = () => {
         return (
@@ -123,8 +130,6 @@ export default class Answer extends React.Component {
 
     }
 
-    
-
     render() {
         return (
             <div>
@@ -171,7 +176,6 @@ export default class Answer extends React.Component {
                                         <br />
                                         {
                                             this.state.RecentC.map((RecentC) => {
-                                                console.log(data.a_id + "..." + RecentC.a_id)
                                                 if (data.a_id == RecentC.a_id) {
                                                     var element = <span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text><br/><br/><br/></span>
                                                 }

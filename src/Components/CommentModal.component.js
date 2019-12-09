@@ -3,8 +3,6 @@ import {Button} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import './css/FAQ.css'
 
-import { TextArea } from 'semantic-ui-react'
-
 class CommentModal extends Component {
     constructor(...args) {
         super(...args);
