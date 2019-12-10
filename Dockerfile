@@ -4,4 +4,4 @@ COPY package.json package-lock.json* ./
 
 RUN npm cache clean --force && npm install
 
-CMD ["npm", "run build", "start"]
+RUN npm run build && npm start
