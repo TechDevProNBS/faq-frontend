@@ -152,6 +152,11 @@
       padding-top:3px;
     padding-bottom:3px;
     background-color: #F1F1F1;
+    border: none;
+    resize: none;
+    width: 50%;
+    
+  
 }
 
   .AnswerCommentSeparator{
@@ -181,8 +186,6 @@
      border-top: 2px solid;
       border-bottom: 2px solid;
        color: black;
-
-
        position:relative;
        bottom:-29px;
        width:100%;

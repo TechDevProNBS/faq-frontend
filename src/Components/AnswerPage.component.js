@@ -38,6 +38,7 @@ export default class Answer extends React.Component {
         sessionStorage.setItem('a_id', a_id)
         this.handleButtonToggleCommentModal(true)
     }
+
     /**
     * This is the function responsible for showing the modal
     * once the add comment button is clicked
@@ -150,6 +151,7 @@ export default class Answer extends React.Component {
         ref.appendChild(refTextInput)
         ref.appendChild(refConfirmButton)
     }
+    
     /**
      * This is a function that is responsible for 'up-voting' and 'down-voting'
      * question ratings.
@@ -160,13 +162,13 @@ export default class Answer extends React.Component {
      *
      * @memberof Answer
      */
+    
     editQuestionRating = async (id) => {
         let currentRating = ""
         let q_id = sessionStorage.getItem('q_id')
         await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)                                  //Url from backend
             .then(response => response.json())
             .then(dataTop => {
-
                 currentRating = dataTop
             })
 
@@ -197,6 +199,7 @@ export default class Answer extends React.Component {
      *
      * @memberof Answer
      */
+                  
     editAnswerRating = async (vote, a_id) => {
         let currentRating = ""
         await fetch(`http://localhost:9001/Answers/TotalRatings/${a_id}`)                                  //Url from backend
@@ -223,6 +226,7 @@ export default class Answer extends React.Component {
         })
         console.log(currentRating)
     }
+        
     /**
      * This is a function that is called when the edit button that is next to
      * the comments is clicked. 
@@ -233,6 +237,7 @@ export default class Answer extends React.Component {
      *
      * @memberof Answer
      */
+        
     editComment = (spanid, comment) => {
 
         var ref = document.getElementById("comment" + spanid)
@@ -256,10 +261,10 @@ export default class Answer extends React.Component {
             })
             window.location.replace(`http://localhost:3000/answer`)
         })
-        refTextInput.style.minWidth = "40%"
-        refTextInput.style.maxWidth = "40%"
-        refTextInput.style.marginLeft = "80px"
-        refTextInput.value = comment
+        refTextInput.style.minWidth = "50%"
+        refTextInput.style.maxWidth = "50%"
+        refTextInput.style.marginLeft = "60px"
+        refTextInput.innerHTML = comment 
         ref.appendChild(refTextInput)
         ref.appendChild(refConfirmButton)
     }
@@ -274,6 +279,7 @@ export default class Answer extends React.Component {
      *
      * @memberof Answer
      */
+    
     componentDidMount = async () => {
         let Alpha = ""
         let Beta = ""
@@ -366,7 +372,9 @@ export default class Answer extends React.Component {
                                         {
                                             this.state.RecentC.map((RecentC) => {
                                                 if (data.a_id == RecentC.a_id) {
-                                                    var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text></span><br />
+
+                                                    var element = <div><span id={'comment' + RecentC.c_id}><textarea rows='3' className='CommentBox' disabled>{RecentC.comment}</textarea></span><br />
+
                                                         <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
                                                         <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
                                                         <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
