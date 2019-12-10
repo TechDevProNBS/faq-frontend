@@ -14,16 +14,27 @@ class CommentModal extends Component {
         this.close = () => {
             this.setState({ showModal: this.props.showModal });
         };
-        /* Function not used
-        this.open = () => {
-            this.setState({ showModal: true });
-        }; */
+
     }
+
+
+    /**
+     * This causes the comment modal to show on screen
+     *
+     * @param {*} nextProps
+     * @memberof CommentModal
+     */
     componentWillReceiveProps(nextProps) {
         this.setState({
             showModal: nextProps.showModal
         })
     }
+
+    /**
+     *This function allows a user to post a comment to an answer that has already been submitted by another user
+     *
+     * @memberof CommentModal
+     */
     postComment = (e) =>{
         e.preventDefault();
         console.log(document.getElementById("textComment"))
@@ -55,6 +66,12 @@ class CommentModal extends Component {
     }
 
 
+    /**
+     *This render is the design of the Comment Modal that appears on screen to allow users to comment
+     *
+     * @returns
+     * @memberof CommentModal
+     */
     render() {
         return (
             <Modal
