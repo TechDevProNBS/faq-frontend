@@ -14,16 +14,27 @@ class CommentModal extends Component {
         this.close = () => {
             this.setState({ showModal: this.props.showModal });
         };
-        /* Function not used
-        this.open = () => {
-            this.setState({ showModal: true });
-        }; */
     }
+        /**
+     * Function to show the model using the state
+     * from another .js file - hence use of props
+     *
+     * @param {*} nextProps
+     * @memberof CommentModal
+     */
     componentWillReceiveProps(nextProps) {
         this.setState({
             showModal: nextProps.showModal
         })
     }
+        /**
+     * Function to post a comment to the database using 
+     * /Comment/Post
+     * Once the comment has been sent, it reloads the overall
+     * answers page
+     *
+     * @memberof CommentModal
+     */
     postComment = (e) =>{
         e.preventDefault();
         console.log(document.getElementById("textComment"))
