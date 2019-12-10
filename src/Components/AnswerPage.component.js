@@ -16,13 +16,14 @@ export default class Answer extends React.Component {
             RecentC: [],
             showIssueModal: true
         }
+
     }
 
     answerStorage(a_id) {
         sessionStorage.setItem('a_id', a_id)
         this.handleButtonToggleCommentModal(true)
     }
-    
+
     handleButtonToggleCommentModal = (toggle) => {
         this.setState({
             showModal: toggle
@@ -59,7 +60,7 @@ export default class Answer extends React.Component {
         );
     }
 
-    editAnswer = (spanid, answer ) => {
+    editAnswer = (spanid, answer) => {
 
         var ref = document.getElementById("answer" + spanid)
         ref.innerHTML = ""
@@ -95,26 +96,28 @@ export default class Answer extends React.Component {
         await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)                                  //Url from backend
             .then(response => response.json())
             .then(dataTop => {
-                
+
                 currentRating = dataTop
             })
-            
-       if(id=="UP"){currentRating=currentRating+1}
-      else if(id=="DOWN"){currentRating=currentRating-1}
-       
-       let updateRating = {
-        "rating": currentRating,
-        "q_id":q_id,
-        "u_id":24
-       }
-      await fetch(`http://localhost:9001/Questions/EditQuestionRating`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updateRating)
-    })
-   
+
+        if (id == "UP") { currentRating = currentRating + 1 }
+        else if (id == "DOWN") { currentRating = currentRating - 1 }
+
+        let updateRating = {
+            "rating": currentRating,
+            "q_id": q_id,
+            "u_id": 24
+        }
+        await fetch(`http://localhost:9001/Questions/EditQuestionRating`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateRating)
+        })
+
+        this.reRender();
+
     }
 
     editAnswerRating = async (vote, a_id) => {
@@ -122,29 +125,34 @@ export default class Answer extends React.Component {
         await fetch(`http://localhost:9001/Answers/TotalRatings/${a_id}`)                                  //Url from backend
             .then(response => response.json())
             .then(dataTop => {
-                
+
                 currentRating = dataTop
             })
-            
-       if(vote=="UP"){currentRating=currentRating+1}
-      else if(vote=="DOWN"){currentRating=currentRating-1}
-       
-       var updateRating = {
-        "rating": currentRating,
-        "a_id":a_id,
-        "u_id":24
-       }
-      await fetch(`http://localhost:9001/Answers/EditAnswerRating`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updateRating)
-    })
-            console.log(currentRating)
+
+        if (vote == "UP") { currentRating = currentRating + 1 }
+        else if (vote == "DOWN") { currentRating = currentRating - 1 }
+
+        var updateRating = {
+            "rating": currentRating,
+            "a_id": a_id,
+            "u_id": 24
+        }
+        await fetch(`http://localhost:9001/Answers/EditAnswerRating`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateRating)
+        })
+        
+        this.reRender();
     }
-  
-    editComment = (spanid, comment ) => {
+
+    reRender = () => {
+        window.location.reload()
+    }
+
+    editComment = (spanid, comment) => {
 
         var ref = document.getElementById("comment" + spanid)
         ref.innerHTML = ""
@@ -175,19 +183,62 @@ export default class Answer extends React.Component {
         ref.appendChild(refConfirmButton)
     }
 
-
+    // combineArray = (RecentA, Ratings) => {
+    //     console.log(Ratings)
+    //     console.log(Ratings[0])
+    //     var newArray = []
+    //         newArray = RecentA.map((data, index) => {
+    //             return (
+    //                 {
+    //                     "a_id": data.a_id,
+    //                     "answer": data.answer,
+    //                     "niceDate": data.niceDate,
+    //                     "niceTime": data.niceTime,
+    //                     "postdate_A": data.postdate_A,
+    //                     "q_id": data.q_id,
+    //                     "u_id": data.u_id,
+    //                     "rating": Ratings[index]
+    //                 }
+    //             )
+    //         })
+        
+                   
+    //     return (newArray)
+    // }
 
     componentDidMount = async () => {
         let Alpha = ""
         let Beta = ""
         let Gamma = ""
+        let totalRatingQ = ""
+        
+        var Ratings = []
         var q_id = sessionStorage.getItem('q_id');
-        await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
+       await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
             .then(response => response.json())
+            .then(dataRecentA => {
+                Alpha=dataRecentA
+            //     if(dataRecentA.length>0){
 
+            //         dataRecentA.forEach(element => {
+            //         fetch(`http://localhost:9001/Answers/TotalRatings/${element.a_id}`)
+            //             .then(response => response.json())
+            //             .then(data => {
+            //                 Ratings.push(data) 
+            //                 Alpha = this.combineArray(dataRecentA,Ratings)   
+            //             })
+            //     })
+            // }
+            //     else{Alpha=dataRecentA}  
+            })
+        await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)
+            .then(response => response.json())
             .then(data => {
-                console.log(data)
-                Alpha = data
+
+                if (data > 0) { data = "+" + data }
+
+                totalRatingQ = data
+              
             })
 
         await fetch(`http://localhost:4001/Answers/CountA/${q_id}`)
@@ -205,7 +256,9 @@ export default class Answer extends React.Component {
                     this.setState({
                         RecentC: dataC,
                         RecentA: Alpha,
-                        CountA: Beta
+                        CountA: Beta,
+                        QuestionRating: totalRatingQ,
+
                     })
                 })
         }
@@ -213,7 +266,9 @@ export default class Answer extends React.Component {
             this.setState({
                 RecentC: Gamma,
                 RecentA: Alpha,
-                CountA: 0
+                CountA: 0,
+                QuestionRating: totalRatingQ,
+
             })
         }
 
@@ -243,8 +298,8 @@ export default class Answer extends React.Component {
                 <h3 className='QuestionSubheading'>Question:
                 </h3>
                 <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' id="upVoteQ" onClick={() => this.editQuestionRating("UP")} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
-                    <Button variant='danger'  id="dwnVoteQ" onClick={() => this.editQuestionRating("DOWN")}  className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
-                    (rating)<br /></h4>
+                    <Button variant='danger' id="dwnVoteQ" onClick={() => this.editQuestionRating("DOWN")} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                    (rating: {this.state.QuestionRating})<br /></h4>
                 <text variant='secondary' style={{ marginLeft: '40px' }}>posted on: {sessionStorage.getItem('postDQ')} @ {sessionStorage.getItem('postTQ')}</text>
                 <div class="container site-container" style={{ marginTop: '20px', marginBottom: '30px' }}>
                     <div class="row">
@@ -256,34 +311,34 @@ export default class Answer extends React.Component {
                             {
                                 this.state.RecentA.map((data) =>
                                     <div>
-                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>< br/>
+                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>< br />
                                         <span>posted on: {data.niceDate} @ {data.niceTime}</span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
                                         <a href='#' onClick={() => this.handleButtonToggleDeleteAnswerModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
-                                        <Button variant='primary' onClick={() => this.editAnswerRating("UP",data.a_id)} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
+                                        <Button variant='primary' onClick={() => this.editAnswerRating("UP", data.a_id)} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' onClick={() => this.editAnswerRating("DOWN", data.a_id)} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
-                                        (rating)
+                                        (rating: {data.rating})
                                         <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />
                                         <hr className='AnswerCommentSeparator' />
                                         <br />
                                         {
                                             this.state.RecentC.map((RecentC) => {
                                                 if (data.a_id == RecentC.a_id) {
-                                                    var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text></span><br/>
-                                                    <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
-                                                    <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
-                                                    <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
-                                                    <a href='#' onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
-                                                    <br/><br/><br/>
-                                                    
+                                                    var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text></span><br />
+                                                        <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
+                                                        <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
+                                                        <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
+                                                        <a href='#' onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                                        <br /><br /><br />
+
                                                     </div>
-                                                    
+
                                                 }
                                                 return (
                                                     <div>
-                                                        {element}                                                        
+                                                        {element}
                                                     </div>
 
                                                 )
