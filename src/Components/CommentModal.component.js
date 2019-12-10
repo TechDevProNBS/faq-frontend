@@ -15,7 +15,7 @@ class CommentModal extends Component {
             this.setState({ showModal: this.props.showModal });
         };
     }
-        /**
+    /**
      * Function to show the model using the state
      * from another .js file - hence use of props
      *
