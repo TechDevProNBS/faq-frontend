@@ -13,10 +13,7 @@ class DeleteQuestionModal extends Component {
         this.close = () => {
             this.setState({ showModalq: this.props.showModalq });
         };
-        /* Function not used
-        this.open = () => {
-            this.setState({ showModal: true });
-        }; */
+
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -24,6 +21,12 @@ class DeleteQuestionModal extends Component {
         })
     }
     
+
+    /**
+     *  This allows a user to delete/remove a question they have previously submitted. This will also allow admins to remove other users question
+     *
+     * @memberof DeleteQuestionModal
+     */
     removeQuestion() {
         var q_id = sessionStorage.getItem('q_id');
         fetch(`http://localhost:4001/Questions/DelQ/` + q_id, {
@@ -42,7 +45,13 @@ class DeleteQuestionModal extends Component {
             })
     }
 
-
+    
+    /**
+     * This render is the design of the confirmation Modal that appears on screen for users to confirm they wish to delete the question
+     *
+     * @returns
+     * @memberof DeleteQuestionModal
+     */
     render() {
         return (
             <Modal

@@ -19,6 +19,13 @@ export default class Home extends React.Component {
             //Name of what you want 
         }
     }
+    /**
+     * The search function takes the value entered into the search bar and sends it to Express
+     * and puts all of the response data within the array filteredResults. This also then sets
+     * the search status to true, which triggers the relevant information to render on screen
+     * Then, once the function receives a response it converts that response into JSON format
+     * @memberof Home
+     */
 
     search = (e) => {
         e.preventDefault()
@@ -35,6 +42,11 @@ export default class Home extends React.Component {
             })
     }
 
+    /**
+     * This function simple triggers when the delete button is pressed for a delete confirmation 
+     * modal to appear on screen
+     * @memberof Home
+     */
     handleButtonToggleDeleteQuestionModal = (toggle,q_id) => {
         this.setState({
             showModalq: toggle
@@ -42,13 +54,23 @@ export default class Home extends React.Component {
         });
         sessionStorage.setItem('q_id', q_id)
     }
-    renderHomepage() {
-        this.setState({
-            filteredResults: this.state.filteredResults,
-            search:true
-        })
-    }
+    // renderHomepage() {                   THIS DOESNT SEEM TO DO ANYTHING - DELETE?
+    //     this.setState({
+    //         filteredResults: this.state.filteredResults,
+    //         search:true
+    //     })
+    // }
 
+    /**
+     *The Qstorage is simply a function to set values to specific items within the sessionStorage,
+     * this allows them to be referenced and used elsewhere within the application
+
+     * @param {*} question
+     * @param {*} q_id
+     * @param {*} postDQ
+     * @param {*} postTQ
+     * @memberof Home
+     */
     Qstorage(question, q_id, postDQ, postTQ) {
         sessionStorage.setItem('questions', question)
         sessionStorage.setItem('q_id', q_id)
@@ -56,7 +78,10 @@ export default class Home extends React.Component {
         sessionStorage.setItem('postTQ', postTQ)
     }
     
-
+    /**
+     * The editQuestion function allows a user to amend a question they have previously submitted
+     * @memberof Home
+     */
     editQuestion = (q_id,spanid, question ) => {
         var ref = document.getElementById(spanid)
         ref.innerHTML = ""
@@ -87,6 +112,13 @@ export default class Home extends React.Component {
         ref.appendChild(refConfirmButton1)
     }
 
+    
+
+    /**
+     * The componentDidMount function automatically executes when the home page is loaded. The specifics in this
+     * case are to retireve the Recent, Unanswered and Top Rated questions and display them
+     * @memberof Home
+     */
     componentDidMount = async () => {
 
 
@@ -115,7 +147,13 @@ export default class Home extends React.Component {
             })
     }
 
-    
+    /**
+     * The below function simply triggers when the ask question button is pressed and causes the ask question 
+     * modal to appear on screen
+     * @memberof Home
+     */
+
+
     handleButtonToggleAskModal = (toggle) => {
 
         this.setState({
@@ -123,7 +161,10 @@ export default class Home extends React.Component {
         });
     }
 
-
+    /**
+     * The textAnswer function gives an id for the textfield used within the AskQuestionModal component
+     * @memberof Home
+     */
     textAnswer = () => {
         return (
             <TextArea id="textQuestion" style={{ maxWidth: '100%', minWidth: '100%' }} />
@@ -131,6 +172,10 @@ export default class Home extends React.Component {
         );
     }
 
+    /**
+     * Function for if enter is pressed then it will run the search function
+     * @memberof Home
+     */
     callchange = (e) => {
         console.log(e.keyCode)
         if (e.keyCode == 13) {
@@ -139,6 +184,14 @@ export default class Home extends React.Component {
         //e.preventDefault()
     }
     render() {
+        
+    /**
+     * This if statement checks whether the current webpage is on the search page - If true, it completes
+     * a search of the DB for the entered fields, if nothing is found displays a message and shows the AskQuestion
+     * button
+     * @returns
+     * @memberof Home
+     */
         if (this.state.search==true) {
             return (
                 <div>
@@ -196,6 +249,13 @@ export default class Home extends React.Component {
                 </div>
             )
         }
+        /**
+     * This else statement executes when the user first loads the homepage and displays a range of certain
+     * specified questions - eg trending etc - along with the edit and delete buttons if the user has the
+     * appropriate permissions
+     * @returns
+     * @memberof Home
+     */
         else {
             return (
                 <div>
