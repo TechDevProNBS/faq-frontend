@@ -13,10 +13,7 @@ class DeleteCommentModal extends Component {
         this.close = () => {
             this.setState({ showModal3: this.props.showModal3 });
         };
-        /* Function not used
-        this.open = () => {
-            this.setState({ showModal: true });
-        }; */
+
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -24,6 +21,12 @@ class DeleteCommentModal extends Component {
         })
     }
    
+
+    /**
+     *
+     * This allows a user to delete/remove a comment they have previously submitted. This will also allow admins to remove other users comments
+     * @memberof DeleteCommentModal
+     */
     removeComment() {
         var c_id = sessionStorage.getItem('c_id');
         fetch(`http://localhost:4001/Comments/DelC/` + c_id, {
@@ -43,6 +46,12 @@ class DeleteCommentModal extends Component {
     }
 
 
+    /**
+     * This render is the design of the confirmation Modal that appears on screen for users to confirm they wish to delete the comment
+     *
+     * @returns
+     * @memberof DeleteCommentModal
+     */
     render() {
         return (
             <Modal

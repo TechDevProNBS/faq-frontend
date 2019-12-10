@@ -7,6 +7,15 @@ import DeleteAnswerModal from './DeleteAnswerModal.component'
 import DeleteCommentModal from './DeleteCommentModal.component'
 import { TextArea } from 'semantic-ui-react'
 
+
+/**
+ * Class that handles the functions and the rendering 
+ * for the answer page
+ *
+ * @export
+ * @class Answer
+ * @extends {React.Component}
+ */
 export default class Answer extends React.Component {
 
     constructor() {
@@ -17,48 +26,101 @@ export default class Answer extends React.Component {
             showIssueModal: true
         }
     }
-
+    /**
+    * This is a function that is called when the add answer button is clicked.
+    * It stores the answer id in the sessionStorage and then calls another function
+    * called handleButtonToggleCommentModal
+    *
+    * @param {*} a_id
+    * @memberof Answer
+    */
     answerStorage(a_id) {
         sessionStorage.setItem('a_id', a_id)
         this.handleButtonToggleCommentModal(true)
     }
 
+    /**
+    * This is the function responsible for showing the modal
+    * once the add comment button is clicked
+    *
+    * @memberof Answer
+    */
     handleButtonToggleCommentModal = (toggle) => {
         this.setState({
             showModal: toggle
         });
     }
+    /**
+    * This is the function responsible for showing the modal
+    * once the add answer button is clicked
+    *
+    * @memberof Answer
+    */
     handleButtonToggleAnswerModal = (toggle) => {
         this.setState({
             showModal1: toggle
         });
     }
+
+    /**
+    * This is the function responsible for showing the model
+    * once the delete answer button is clicked
+    *
+    * @memberof Answer
+    */
     handleButtonToggleDeleteAnswerModal = (toggle, a_id) => {
         this.setState({
             showModal2: toggle
         });
         var a_id = sessionStorage.setItem('a_id', a_id);
     }
+
+    /**
+     * This is the function responsible for showing the model
+     * once the delete answer button is clicked
+     *
+     * @memberof Answer
+     */
     handleButtonToggleDeleteCommentModal = (toggle, c_id) => {
         this.setState({
             showModal3: toggle
         });
         var c_id = sessionStorage.setItem('c_id', c_id);
     }
-
-
+    /**
+    *This is the function responsible for the text area that is typed in
+    *when you want to post an answer. We would use getElementByID("textAnswer")
+    *
+    * @memberof Answer
+    */
     textAnswer = () => {
         return (
             <TextArea style={{ maxWidth: '100%', minWidth: '100%' }} id="textAnswer" />
         );
     }
 
+    /**
+     * This is the fucntion responsible for the text area that is typed in
+     * when you want to post a comment. We would use getElementByID("textComment")
+     *
+     * @memberof Answer
+     */
     textComment = () => {
         return (
             <TextArea style={{ maxWidth: '100%', minWidth: '100%' }} id="textComment" />
         );
     }
 
+    /**
+     * This is a functoin that is called when the edit button that is next to
+     * the answers is clicked. 
+     * It communicates with the backednd through a fetch request to /Answers
+     * /UpdateA.
+     * It will then redirect you back to the answers page once this has been
+     * submitted through a window.location.replace
+     *
+     * @memberof Answer
+     */
     editAnswer = (spanid, answer) => {
 
         var ref = document.getElementById("answer" + spanid)
@@ -89,9 +151,95 @@ export default class Answer extends React.Component {
         ref.appendChild(refTextInput)
         ref.appendChild(refConfirmButton)
     }
+    
+    /**
+     * This is a function that is responsible for 'up-voting' and 'down-voting'
+     * question ratings.
+     * Firstly it will fetch the current question rating from database with q_id.
+     * If the up-vote button is clicked, then it +1 to the current rating.
+     * If the down-vote button is clicked, then it -1 to the current rating.
+     * It then updates this is the backend through a PUT request.
+     *
+     * @memberof Answer
+     */
+    
+    editQuestionRating = async (id) => {
+        let currentRating = ""
+        let q_id = sessionStorage.getItem('q_id')
+        await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)                                  //Url from backend
+            .then(response => response.json())
+            .then(dataTop => {
+                currentRating = dataTop
+            })
 
+        if (id == "UP") { currentRating = currentRating + 1 }
+        else if (id == "DOWN") { currentRating = currentRating - 1 }
+
+        let updateRating = {
+            "rating": currentRating,
+            "q_id": q_id,
+            "u_id": 24
+        }
+        await fetch(`http://localhost:9001/Questions/EditQuestionRating`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateRating)
+        })
+    }
+
+    /**
+     * This is a function that is responsible for 'up-voting' and 'down-voting'
+     * answer ratings.
+     * Firstly it will fetch the current answer rating from database with q_id.
+     * If the up-vote button is clicked, then it +1 to the current rating.
+     * If the down-vote button is clicked, then it -1 to the current rating.
+     * It then updates this is the backend through a PUT request.
+     *
+     * @memberof Answer
+     */
+                  
+    editAnswerRating = async (vote, a_id) => {
+        let currentRating = ""
+        await fetch(`http://localhost:9001/Answers/TotalRatings/${a_id}`)                                  //Url from backend
+            .then(response => response.json())
+            .then(dataTop => {
+
+                currentRating = dataTop
+            })
+
+        if (vote == "UP") { currentRating = currentRating + 1 }
+        else if (vote == "DOWN") { currentRating = currentRating - 1 }
+
+        var updateRating = {
+            "rating": currentRating,
+            "a_id": a_id,
+            "u_id": 24
+        }
+        await fetch(`http://localhost:9001/Answers/EditAnswerRating`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateRating)
+        })
+        console.log(currentRating)
+    }
+        
+    /**
+     * This is a function that is called when the edit button that is next to
+     * the comments is clicked. 
+     * It communicates with the backednd through a fetch request to /Comments
+     * /UpdateC.
+     * It will then redirect you back to the answers page once this has been
+     * submitted through a window.location.replace
+     *
+     * @memberof Answer
+     */
+        
     editComment = (spanid, comment) => {
-        let  data2=""
+
         var ref = document.getElementById("comment" + spanid)
         ref.innerHTML = ""
         var refTextInput = document.createElement("TextArea");
@@ -121,7 +269,17 @@ export default class Answer extends React.Component {
         ref.appendChild(refConfirmButton)
     }
 
-
+    /**
+     * This componentDidMount function is responsible for processing
+     * all of the get requests relating to answers to the backend.
+     * They display the recent answers answers as well as those
+     * /Answers/CountA tells you how many answers there are.
+     * /Comments/GetC gets all the comments relating to the specific
+     * answer from the back-end.
+     *
+     * @memberof Answer
+     */
+    
     componentDidMount = async () => {
         let Alpha = ""
         let Beta = ""
@@ -161,8 +319,6 @@ export default class Answer extends React.Component {
                 CountA: 0
             })
         }
-
-
     }
 
     render() {
@@ -187,8 +343,8 @@ export default class Answer extends React.Component {
                 <br />
                 <h3 className='QuestionSubheading'>Question:
                 </h3>
-                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
-                    <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' id="upVoteQ" onClick={() => this.editQuestionRating("UP")} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
+                    <Button variant='danger' id="dwnVoteQ" onClick={() => this.editQuestionRating("DOWN")} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
                     (rating)<br /></h4>
                 <text variant='secondary' style={{ marginLeft: '40px' }}>posted on: {sessionStorage.getItem('postDQ')} @ {sessionStorage.getItem('postTQ')}</text>
                 <div class="container site-container" style={{ marginTop: '20px', marginBottom: '30px' }}>
@@ -207,8 +363,8 @@ export default class Answer extends React.Component {
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
                                         <a href='#' onClick={() => this.handleButtonToggleDeleteAnswerModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
-                                        <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
-                                        <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
+                                        <Button variant='primary' onClick={() => this.editAnswerRating("UP", data.a_id)} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
+                                        <Button variant='danger' onClick={() => this.editAnswerRating("DOWN", data.a_id)} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
                                         (rating)
                                         <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />
                                         <hr className='AnswerCommentSeparator' />
@@ -216,7 +372,9 @@ export default class Answer extends React.Component {
                                         {
                                             this.state.RecentC.map((RecentC) => {
                                                 if (data.a_id == RecentC.a_id) {
+
                                                     var element = <div><span id={'comment' + RecentC.c_id}><textarea rows='3' className='CommentBox' disabled>{RecentC.comment}</textarea></span><br />
+
                                                         <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
                                                         <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
                                                         <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>

@@ -13,10 +13,7 @@ class DeleteAnswerModal extends Component {
         this.close = () => {
             this.setState({ showModal2: this.props.showModal2 });
         };
-        /* Function not used
-        this.open = () => {
-            this.setState({ showModal: true });
-        }; */
+
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -24,6 +21,11 @@ class DeleteAnswerModal extends Component {
         })
     }
    
+    /**
+     * This allows a user to delete/remove an answer they have previously submitted. This will also allow admins to remove other users answers
+     *
+     * @memberof DeleteAnswerModal
+     */
     removeAnswer() {
         var a_id = sessionStorage.getItem('a_id');
         fetch(`http://localhost:4001/Answers/DelA/` + a_id, {
@@ -43,6 +45,12 @@ class DeleteAnswerModal extends Component {
     }
 
 
+    /**
+     *
+     *  This render is the design of the confirmation Modal that appears on screen for users to confirm they wish to delete the answer
+     * @returns
+     * @memberof DeleteAnswerModal
+     */
     render() {
         return (
             <Modal
