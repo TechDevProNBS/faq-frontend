@@ -14,12 +14,10 @@ class CommentModal extends Component {
         this.close = () => {
             this.setState({ showModal: this.props.showModal });
         };
-
     }
-
-
-    /**
-     * This causes the comment modal to show on screen
+        /**
+     * Function to show the model using the state
+     * from another .js file - hence use of props
      *
      * @param {*} nextProps
      * @memberof CommentModal
@@ -29,9 +27,11 @@ class CommentModal extends Component {
             showModal: nextProps.showModal
         })
     }
-
-    /**
-     *This function allows a user to post a comment to an answer that has already been submitted by another user
+     /**
+     * Function to post a comment to the database using 
+     * /Comment/Post
+     * Once the comment has been sent, it reloads the overall
+     * answers page
      *
      * @memberof CommentModal
      */
@@ -44,17 +44,16 @@ class CommentModal extends Component {
         }, () => {
             let data = {
                 "a_id": sessionStorage.getItem('a_id'),
-                "userID": 71,                                                                  //We create a variable called data and store what is currently in the state into it
-                "comment":this.state.textComment
+                "userID": 71,                                                              
             }
-            fetch(`http://localhost:4001/Comments/PostC`, {                                    //This is the fetch request that actually communicates with the backend
-                method: 'POST',                                                             //This defines the method as a POST method
+            fetch(`http://localhost:4001/Comments/PostC`, {                                  
+                method: 'POST',                                                            
                 headers: {
-                    'Content-Type': 'application/json',                                     //This converts it into JSON format
+                    'Content-Type': 'application/json',                                  
                 },
                 body: JSON.stringify(data)
             })
-                .then(response => {                                                         //Error handling
+                .then(response => {                                                    
                     if (response.status === 200) {
                         window.location.replace(`http://localhost:3000/answer`);
                     } else {
