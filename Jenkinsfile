@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Building FAQS Node Frontend') {
             steps {
-                    sh 'npm start'
+                    sh 'npm install'
 		    sh 'docker build -t="rakimsv/faqs-frontend:latest" .'
             }
         }
