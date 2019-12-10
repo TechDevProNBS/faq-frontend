@@ -266,7 +266,7 @@ export default class Answer extends React.Component {
                     <div class="row">
                         <div class="col-lg-12">
                             <h4 className='AnswersSubheading'>Answers ({this.state.CountA}): </h4><br />
-                            <h4 className='AnswerRating'>Rating: ({this.state.RecentB}): </h4><br />
+                            <h4 className='QuestionRating'>Rating: ({this.state.RecentB}): </h4><br />
                             <div className='Separator'>
                                 <hr />
                             </div>
@@ -277,12 +277,6 @@ export default class Answer extends React.Component {
                                         <span>posted on: {data.niceDate} @ {data.niceTime}</span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
-
-                                        <a href='#' onClick = {()=> console.log(this.answerStorage2(data.a_id))} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
-                                        <br /><br />
-                                        <Button variant='primary' className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
-                                        <Button variant='danger' className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
-                                        (Rating)
 
                                         <a href='#' onClick={() => this.handleButtonToggleDeleteAnswerModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
                                         <br /><br />
