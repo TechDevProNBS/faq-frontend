@@ -22,7 +22,7 @@ export default class Answer extends React.Component {
         sessionStorage.setItem('a_id', a_id)
         this.handleButtonToggleCommentModal(true)
     }
-    
+
     handleButtonToggleCommentModal = (toggle) => {
         this.setState({
             showModal: toggle
@@ -59,7 +59,7 @@ export default class Answer extends React.Component {
         );
     }
 
-    editAnswer = (spanid, answer ) => {
+    editAnswer = (spanid, answer) => {
 
         var ref = document.getElementById("answer" + spanid)
         ref.innerHTML = ""
@@ -90,8 +90,8 @@ export default class Answer extends React.Component {
         ref.appendChild(refConfirmButton)
     }
 
-    editComment = (spanid, comment ) => {
-
+    editComment = (spanid, comment) => {
+        let  data2=""
         var ref = document.getElementById("comment" + spanid)
         ref.innerHTML = ""
         var refTextInput = document.createElement("TextArea");
@@ -113,10 +113,10 @@ export default class Answer extends React.Component {
             })
             window.location.replace(`http://localhost:3000/answer`)
         })
-        refTextInput.style.minWidth = "40%"
-        refTextInput.style.maxWidth = "40%"
-        refTextInput.style.marginLeft = "80px"
-        refTextInput.value = comment
+        refTextInput.style.minWidth = "50%"
+        refTextInput.style.maxWidth = "50%"
+        refTextInput.style.marginLeft = "60px"
+        refTextInput.innerHTML = comment 
         ref.appendChild(refTextInput)
         ref.appendChild(refConfirmButton)
     }
@@ -201,7 +201,7 @@ export default class Answer extends React.Component {
                             {
                                 this.state.RecentA.map((data) =>
                                     <div>
-                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>< br/>
+                                        <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>< br />
                                         <span>posted on: {data.niceDate} @ {data.niceTime}</span>
 
                                         <a href='#' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
@@ -216,19 +216,19 @@ export default class Answer extends React.Component {
                                         {
                                             this.state.RecentC.map((RecentC) => {
                                                 if (data.a_id == RecentC.a_id) {
-                                                    var element = <div><span id={'comment' + RecentC.c_id}> <text className='CommentText' className='CommentBox'>{RecentC.comment}</text></span><br/>
-                                                    <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
-                                                    <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
-                                                    <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
-                                                    <a href='#' onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
-                                                    <br/><br/><br/>
-                                                    
+                                                    var element = <div><span id={'comment' + RecentC.c_id}><textarea rows='3' className='CommentBox' disabled>{RecentC.comment}</textarea></span><br />
+                                                        <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
+                                                        <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
+                                                        <a href='#' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
+                                                        <a href='#' onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                                        <br /><br /><br />
+
                                                     </div>
-                                                    
+
                                                 }
                                                 return (
                                                     <div>
-                                                        {element}                                                        
+                                                        {element}
                                                     </div>
 
                                                 )
