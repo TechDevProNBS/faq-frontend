@@ -99,16 +99,16 @@ export default class Home extends React.Component{
                     </nav>
                 </body>
                 <br />
-                <div className="container" style={{ marginTop: '60px', marginBottom: '30px' }}>
+                <div className="container" style={{ marginTop: '60px', marginBottom: '30px', height:'327px' }}>
                     <div class="row">
-                        <div class="col-lg-8  ">
+                        <div class="col-lg-8">
                             <h3 style={{ color: '#3252A4' }}>Search Results:</h3>
                             <p class="lead"></p>
                             {
                                 this.state.filteredResults.map((data, index) =>
 
                                     <div>
-                                        <font onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font><br />
+                                        <font className='hyperlinkText' style={{color:'#4385FC'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font><br />
                                         <br />
                                     </div>
                                 )}
@@ -118,7 +118,7 @@ export default class Home extends React.Component{
 
                 </div>
                 <center>
-                    <div style={{ marginTop: '210px' }}>Not found what you were looking for?</div><br />
+                    <div>Not found what you were looking for?</div><br />
                     <Button variant='danger' onClick={() => this.handleButtonToggleAskModal(true)} style={{ height: '25px', paddingTop: '0' }}>Ask A Question</Button>
                 </center>
                 <AskQuestionModal content={this.textAnswer()} title={"Ask A Question"} showModal={this.state.showModal} close={() => this.handleButtonToggleAskModal(false)} /><br />

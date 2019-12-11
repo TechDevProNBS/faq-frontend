@@ -257,10 +257,10 @@ export default class Home extends React.Component {
                                         
                                         <div>
 
-                                           <span id={'tquestion' + data.q_id}> <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
+                                           <span className='hyperlinkText' id={'tquestion' + data.q_id}> <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
                                             
-                                        <font  onClick={() => this.editQuestion(data.q_id,"tquestion" + data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
-                                        <font onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br />
+                                        <font className='hyperlinkText' onClick={() => this.editQuestion(data.q_id,"tquestion" + data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
+                                        <font className='hyperlinkText' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br />
 
                                             <br />
                                         </div>
@@ -274,9 +274,9 @@ export default class Home extends React.Component {
                                 {
                                     this.state.UnansweredQ.map((data, index) =>
                                         <div>
-                                          <span id={'uaquestion' + data.q_id}>   <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
-                                        <font onClick={() => this.editQuestion(data.q_id,"uaquestion"+ data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
-                                        <font  onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br />
+                                          <span className='hyperlinkText' id={'uaquestion' + data.q_id}>   <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
+                                        <font className='hyperlinkText' onClick={() => this.editQuestion(data.q_id,"uaquestion"+ data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
+                                        <font className='hyperlinkText' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br />
                                         <br />
                                         </div>
                                     )}
@@ -289,9 +289,9 @@ export default class Home extends React.Component {
                                 {
                                     this.state.RecentQ.map((data, index) =>
                                         <div>
-                                           <span id={'rpquestion' + data.q_id}>  <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
-                                        <font onClick={() => this.editQuestion(data.q_id,"rpquestion"+data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
-                                        <font onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br/>
+                                           <span className='hyperlinkText' id={'rpquestion' + data.q_id}>  <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
+                                        <font className='hyperlinkText' onClick={() => this.editQuestion(data.q_id,"rpquestion"+data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
+                                        <font className='hyperlinkText' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br/>
                                         <br />
                                         </div>
                                     )}
