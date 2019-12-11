@@ -38,7 +38,7 @@ class AskQuestionsModal extends Component {
     postQuestion = (e) => {
         e.preventDefault();
         let questionContent = document.getElementById("textQuestion").value
-        alert(questionContent)
+        
             let data = {
                 
                 "userID": 1,                                                                  //We create a variable called data and store what is currently in the state into it
