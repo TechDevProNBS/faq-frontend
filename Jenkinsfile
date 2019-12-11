@@ -4,12 +4,12 @@ pipeline {
     stages {
         stage('Testing FAQS Node Frontend') {
             steps {
-		    echo "Testing"
+            echo "Testing"
             }
         }
         stage('Building FAQS Node Frontend') {
             steps {
-		    sh 'docker build -t="rakimsv/faqs-frontend:latest" .'
+            sh 'docker build -t="rakimsv/faqs-frontend:latest" .'
             }
         }
         stage('Staging FAQS Node Frontend') {
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Deploying FAQS Node Frontend') {
             steps {
-		   sh 'docker push "rakimsv/faqs-frontend:latest"'
+           sh 'docker push "rakimsv/faqs-frontend:latest"'
                    echo "Deploying"
             }
         }
