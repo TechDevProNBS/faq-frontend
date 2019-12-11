@@ -188,7 +188,7 @@ export default class Home extends React.Component {
      */
     callchange = (e) => {
         console.log(e.keyCode)
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             this.search(e)
         }
         //e.preventDefault()
@@ -202,13 +202,13 @@ export default class Home extends React.Component {
      * @returns
      * @memberof Home
      */
-        if (this.state.search==true) {
+        if (this.state.search===true) {
            return <div>
                <Search/>
            </div>
         }
 
-       else if(this.state.Answer==true) {
+       else if(this.state.Answer===true) {
             return <div>
                 <Answer/>
             </div>
@@ -257,10 +257,10 @@ export default class Home extends React.Component {
                                         
                                         <div>
 
-                                           <span id={'tquestion' + data.q_id}> <a style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
+                                           <span id={'tquestion' + data.q_id}> <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
                                             
-                                        <a href='#' onClick={() => this.editQuestion(data.q_id,"tquestion" + data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
-                                        <a href='#'onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
+                                        <font  onClick={() => this.editQuestion(data.q_id,"tquestion" + data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
+                                        <font onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br />
 
                                             <br />
                                         </div>
@@ -274,9 +274,9 @@ export default class Home extends React.Component {
                                 {
                                     this.state.UnansweredQ.map((data, index) =>
                                         <div>
-                                          <span id={'uaquestion' + data.q_id}>   <a style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
-                                        <a href='#' onClick={() => this.editQuestion(data.q_id,"uaquestion"+ data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
-                                        <a href='#' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
+                                          <span id={'uaquestion' + data.q_id}>   <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
+                                        <font onClick={() => this.editQuestion(data.q_id,"uaquestion"+ data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
+                                        <font  onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br />
                                         <br />
                                         </div>
                                     )}
@@ -289,9 +289,9 @@ export default class Home extends React.Component {
                                 {
                                     this.state.RecentQ.map((data, index) =>
                                         <div>
-                                           <span id={'rpquestion' + data.q_id}>  <a style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
-                                        <a href='#' onClick={() => this.editQuestion(data.q_id,"rpquestion"+data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
-                                        <a href='#' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br/>
+                                           <span id={'rpquestion' + data.q_id}>  <font style={{color:'#4385FC', cursor:'pointer'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font></span>
+                                        <font onClick={() => this.editQuestion(data.q_id,"rpquestion"+data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
+                                        <font onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font><br/>
                                         <br />
                                         </div>
                                     )}
