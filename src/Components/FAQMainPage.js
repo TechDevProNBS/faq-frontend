@@ -3,6 +3,7 @@ import { Form, FormControl, Button } from 'react-bootstrap'
 import './css/FAQ.css'
 import AskQuestionModal from './AskQuestionModal.component'
 import DeleteQuestionModal from './DeleteQuestionModal.component'
+import Search from './Search.component'
 import { TextArea } from 'semantic-ui-react'
 
 export default class Home extends React.Component {
@@ -20,26 +21,22 @@ export default class Home extends React.Component {
         }
     }
     /**
-     * The search function takes the value entered into the search bar and sends it to Express
-     * and puts all of the response data within the array filteredResults. This also then sets
-     * the search status to true, which triggers the relevant information to render on screen
-     * Then, once the function receives a response it converts that response into JSON format
+     * the search function takes the text in the search bar, filters out special characters and stores the result in the session storage.
+     * it then sets the search state as true which will trigger the rendering of the search component.
      * @memberof Home
      */
 
+   
     search = (e) => {
         e.preventDefault()
         var initialString = document.getElementById("searchText").value
         var queryString = initialString.replace(/[^a-zA-Z ]/g, "")
-        fetch(`http://localhost:4001/Questions/SearchQ/${queryString}`)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    filteredResults: data,
-                    search:true
-                })
-            
-            })
+        sessionStorage.setItem('SearchText',queryString)
+        this.setState({
+                            
+                            search:true
+                        })
+           
     }
 
     /**
@@ -54,12 +51,7 @@ export default class Home extends React.Component {
         });
         sessionStorage.setItem('q_id', q_id)
     }
-    // renderHomepage() {                   THIS DOESNT SEEM TO DO ANYTHING - DELETE?
-    //     this.setState({
-    //         filteredResults: this.state.filteredResults,
-    //         search:true
-    //     })
-    // }
+    
 
     /**
      *The Qstorage is simply a function to set values to specific items within the sessionStorage,
@@ -193,61 +185,9 @@ export default class Home extends React.Component {
      * @memberof Home
      */
         if (this.state.search==true) {
-            return (
-                <div>
-                    <body id="page-top">
-
-                        <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black', paddingTop: '0px', paddingBottom: '0px' }}>
-                            <div class="container">
-                                <a class="navbar-brand js-scroll-trigger" href="/"><img
-                                    src="Nationwide.png"
-                                    width="50"
-                                    height="50"
-                                    alt="Nationwide Logo"
-                                    style={{ borderRadius: '25px' }} /></a>
-                                 <div className='searchBar'> 
-                                <Form inline>
-                                    <input id="searchText" onKeyDown={this.callchange} spellcheck='true' size="sm" placeholder="Search..." className="mr-sm-1 searchBarText" />
-                                <button className='searchButton' onClick={this.search}><img src="search.png" width='30px' height='30px'></img></button>
-                                </Form>
-                                </div>
-                                <div class="collapse navbar-collapse" id="navbarResponsive">
-
-                                </div>
-                            </div>
-                        </nav>
-                    </body>
-                    <br />
-                    <div className="container" style={{ marginTop: '60px', marginBottom: '30px' }}>
-                        <div class="row">
-                            <div class="col-lg-8  ">
-                                <h3 style={{ color: '#3252A4' }}>Search Results:</h3>
-                                <p class="lead"></p>
-                                {
-                                    this.state.filteredResults.map((data, index) =>
-
-                                        <div>
-                                            <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a><br />
-                                            <br />
-                                        </div>
-                                    )}
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <center>
-                        <div style={{ marginTop: '210px' }}>Not found what you were looking for?</div><br />
-                        <Button variant='danger' onClick={() => this.handleButtonToggleAskModal(true)} style={{ height: '25px', paddingTop: '0' }}>Ask A Question</Button>
-                    </center>
-                    <AskQuestionModal content={this.textAnswer()} title={"Ask A Question"} showModal={this.state.showModal} close={() => this.handleButtonToggleAskModal(false)} /><br />
-                    <footer className='py-1  FAQFooter'>
-                        <div class="container">
-                            <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
-                        </div>
-                    </footer>
-                </div>
-            )
+           return <div>
+               <Search/>
+           </div>
         }
         /**
      * This else statement executes when the user first loads the homepage and displays a range of certain
