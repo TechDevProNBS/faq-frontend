@@ -1,7 +1,9 @@
 FROM node:12.13
 
-COPY package.json package-lock.json* ./
+COPY . .
 
 RUN npm cache clean --force && npm install
 
-CMD ["npm", "run", "start"]
+CMD [ "npm","run","build" ]
+
+ENTRYPOINT [ "npm", "start" ]
