@@ -14,16 +14,29 @@ class AnswerQuestionsModal extends Component {
         this.close = () => {
             this.setState({ showModal1: this.props.showModal1 });
         };
-        /* Function not used
-        this.open = () => {
-            this.setState({ showModal: true });
-        }; */
     }
+
+    /**
+     * Function to show the model using the state
+     * from another .js file - hence use of props
+     *
+     * @param {*} nextProps
+     * @memberof AnswerQuestionsModal
+     */
     componentWillReceiveProps(nextProps) {
         this.setState({
             showModal1: nextProps.showModal1
         })
     }
+
+    /**
+     * Function to post an answer to the database using 
+     * /Answers/PostA
+     * Once answer has been sent, it reloads the overall
+     * answers page
+     *
+     * @memberof AnswerQuestionsModal
+     */
     postAnswer = (e) =>{
         e.preventDefault();
         this.setState({
