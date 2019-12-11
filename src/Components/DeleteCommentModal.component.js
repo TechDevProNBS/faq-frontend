@@ -66,6 +66,9 @@ class DeleteCommentModal extends Component {
                 <Modal.Header closeButton={true}>
                     <h4 id="modal-label" className="overlay-title">Delete Confirmation</h4>
                 </Modal.Header>
+                <Modal.Body>
+                <h5 id="modal-label">This will permanently delete this comment, are you sure?</h5>
+                </Modal.Body>
                 <Modal.Footer>
                     <Button variant='danger' onClick={this.removeComment}> Confirm
                     </Button><br></br>

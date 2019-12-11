@@ -174,7 +174,10 @@ export default class Answer extends React.Component {
      */
     
     editQuestionRating = async (id) => {
-        let currentRating = ""
+        
+       
+            let originalRating = sessionStorage.getItem('originalRating')
+            let currentRating = ""
         let q_id = sessionStorage.getItem('q_id')
         await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)                                  //Url from backend
             .then(response => response.json())
@@ -182,7 +185,15 @@ export default class Answer extends React.Component {
 
                 currentRating = dataTop
             })
-                
+            if(id==="UP" && sessionStorage.getItem('PreviousVoteQ')==="UP" ){
+                alert("You have already upvoted this question")
+            }
+            else if (id==="DOWN" && sessionStorage.getItem('PreviousVoteQ')==="DOWN"){
+                alert("You have already downvoted this question")
+            }
+
+            else {
+
         if (id === "UP") { currentRating = currentRating + 1 }
         else if (id === "DOWN") { currentRating = currentRating - 1 }
 
@@ -198,8 +209,10 @@ export default class Answer extends React.Component {
             },
             body: JSON.stringify(updateRating)
         })
-     
-
+        }
+        
+        
+        sessionStorage.setItem('PreviousVoteQ',id)
         sessionStorage.setItem('ReloadingAfterPost',true)
         window.location.reload()
        
@@ -219,30 +232,39 @@ export default class Answer extends React.Component {
      */
                   
     editAnswerRating = async (vote, a_id) => {
-        let currentRating = ""
-        await fetch(`http://localhost:9001/Answers/TotalRatings/${a_id}`)                                  //Url from backend
-            .then(response => response.json())
-            .then(dataTop => {
-
-                currentRating = dataTop
-            })
-
-        if (vote === "UP") { currentRating = currentRating + 1 }
-        else if (vote === "DOWN") { currentRating = currentRating - 1 }
-
-        var updateRating = {
-            "rating": currentRating,
-            "a_id": a_id,
-            "u_id": 24
+        if(vote==="UP" && sessionStorage.getItem('PreviousVoteA')==="UP" && a_id===sessionStorage.getItem('PrevA_id')){
+            alert("You have already upvoted this answer")
         }
-        await fetch(`http://localhost:9001/Answers/EditAnswerRating`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updateRating)
-        })
-
+        else if (vote==="DOWN" && sessionStorage.getItem('PreviousVoteA')==="DOWN" && a_id===sessionStorage.getItem('PrevA_id')){
+            alert("You have already downvoted this answer")
+        }
+        else {
+            let currentRating = ""
+            await fetch(`http://localhost:9001/Answers/TotalRatings/${a_id}`)                                  //Url from backend
+                .then(response => response.json())
+                .then(dataTop => {
+    
+                    currentRating = dataTop
+                })
+    
+            if (vote === "UP") { currentRating = currentRating + 1 }
+            else if (vote === "DOWN") { currentRating = currentRating - 1 }
+    
+            var updateRating = {
+                "rating": currentRating,
+                "a_id": a_id,
+                "u_id": 24
+            }
+            await fetch(`http://localhost:9001/Answers/EditAnswerRating`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updateRating)
+            })
+        }
+        sessionStorage.getItem('PrevA_id',a_id)
+        sessionStorage.setItem('PreviousVoteA',vote)
         sessionStorage.setItem('ReloadingAfterPost',true)
         window.location.reload()
        

@@ -45,12 +45,16 @@ export default class Home extends React.Component {
     search = (e) => {
         e.preventDefault()
         var initialString = document.getElementById("searchText").value
-        var queryString = initialString.replace(/[^a-zA-Z ]/g, "")
-        sessionStorage.setItem('SearchText',queryString)
-        this.setState({
-                            
-                            search:true
-                        })
+        if(initialString.length>0){
+            var queryString = initialString.replace(/[^a-zA-Z ]/g, "")
+            sessionStorage.setItem('SearchText',queryString)
+            this.setState({
+                                
+                                search:true
+                            })
+        }
+        else alert("Please enter search parameters")
+       
            
     }
 
