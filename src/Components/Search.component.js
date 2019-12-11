@@ -40,7 +40,7 @@ export default class Home extends React.Component{
 
     callchange = (e) => {
         console.log(e.keyCode)
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             this.search(e)
         }
         //e.preventDefault()
@@ -108,7 +108,7 @@ export default class Home extends React.Component{
                                 this.state.filteredResults.map((data, index) =>
 
                                     <div>
-                                        <a  onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a><br />
+                                        <font onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font><br />
                                         <br />
                                     </div>
                                 )}
