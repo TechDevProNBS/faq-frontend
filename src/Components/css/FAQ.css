@@ -256,4 +256,7 @@
     background-color: white;
   }
 
- 
+ .hyperlinkText:hover {
+   text-decoration-line: underline;
+   cursor: pointer;
+ }

@@ -444,8 +444,8 @@ export default class Answer extends React.Component {
                                         <span id={'answer' + data.a_id}> <text className='EditAnswerText'>{data.answer}</text></span>< br />
                                         <span>posted on: {data.niceDate} @ {data.niceTime}</span>
 
-                                        <a href="/" onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px' }}>Edit</a>
-                                        <a href="/" onClick={() => this.handleButtonToggleDeleteAnswerModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                        <font className='hyperlinkText' onClick={() => this.editAnswer(data.a_id, data.answer)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
+                                        <font className='hyperlinkText' onClick={() => this.handleButtonToggleDeleteAnswerModal(true, data.a_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font>
                                         <br /><br />
                                         <Button variant='primary' onClick={() => this.editAnswerRating("UP", data.a_id)} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' onClick={() => this.editAnswerRating("DOWN", data.a_id)} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
@@ -463,8 +463,8 @@ export default class Answer extends React.Component {
 
                                                         <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
                                                         <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
-                                                        <a href="/" onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px' }}>Edit</a>
-                                                        <a href="/" onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px' }}>Delete</a>
+                                                        <font className='hyperlinkText' onClick={() => this.editComment(RecentC.c_id, RecentC.comment)} style={{ marginLeft: '20px', color:'red' }}>Edit</font>
+                                                        <font className='hyperlinkText' onClick={() => this.handleButtonToggleDeleteCommentModal(true, RecentC.c_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</font>
                                                         <br /><br /><br />
 
                                                     </div>
