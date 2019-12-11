@@ -38,6 +38,7 @@ class DeleteCommentModal extends Component {
             .then(response => {
                 if (response.status === 200) {
                     console.log('Comment Deleted');
+                    sessionStorage.setItem('ReloadingAfterPost',true)
                     window.location.reload();
                 } else {
                     alert('Failed to delete comment');

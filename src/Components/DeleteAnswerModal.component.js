@@ -37,6 +37,7 @@ class DeleteAnswerModal extends Component {
             .then(response => {
                 if (response.status === 200) {
                     console.log('Answer Deleted');
+                    sessionStorage.setItem('ReloadingAfterPost',true)
                     window.location.reload();
                 } else {
                     alert('Failed to delete answer');

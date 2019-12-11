@@ -10,8 +10,22 @@ export default class Home extends React.Component {
     constructor() {
         super();
         
-
+        if(sessionStorage.getItem('ReloadingAfterPost')){
+        
         this.state = {                                                        //this.state represent the rendered values, i.e. what’s currently on the screen
+            RecentQ: [],
+            UnansweredQ: [],
+            TopRatedQ: [],
+            showIssueModal: true,
+            search:false,
+            Answer:true
+            //Name of what you want 
+        }
+        sessionStorage.removeItem('ReloadingAfterPost')
+
+        }
+
+         else   this.state = {                                                        //this.state represent the rendered values, i.e. what’s currently on the screen
             RecentQ: [],
             UnansweredQ: [],
             TopRatedQ: [],

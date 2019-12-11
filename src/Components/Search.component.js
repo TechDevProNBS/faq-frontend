@@ -33,6 +33,9 @@ export default class Home extends React.Component{
         sessionStorage.setItem('q_id', q_id)
         sessionStorage.setItem('postDQ', postDQ)
         sessionStorage.setItem('postTQ', postTQ)
+        sessionStorage.setItem('ReloadingAfterPost',true)
+        window.location.reload()
+       
     }
 
     callchange = (e) => {
@@ -105,7 +108,7 @@ export default class Home extends React.Component{
                                 this.state.filteredResults.map((data, index) =>
 
                                     <div>
-                                        <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a><br />
+                                        <a  onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a><br />
                                         <br />
                                     </div>
                                 )}

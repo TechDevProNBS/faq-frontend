@@ -56,7 +56,8 @@ class AnswerQuestionsModal extends Component {
             })
                 .then(response => {                                                         //Error handling
                     if (response.status === 200) {
-                        window.location.replace(`http://localhost:3000/answer`);
+                        sessionStorage.setItem('ReloadingAfterPost',true)
+                        window.location.reload()
                     } else {
                         alert('Failed to post answer');
                     };

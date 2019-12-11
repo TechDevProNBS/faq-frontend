@@ -150,7 +150,9 @@ export default class Answer extends React.Component {
                 },
                 body: JSON.stringify(data)
             })
-            window.location.replace(`http://localhost:3000/answer`)
+            sessionStorage.setItem('ReloadingAfterPost',true)
+        window.location.reload()
+       
         })
         refTextInput.style.minWidth = "60%"
         refTextInput.style.maxWidth = "60%"
@@ -198,7 +200,9 @@ export default class Answer extends React.Component {
         })
      
 
-        
+        sessionStorage.setItem('ReloadingAfterPost',true)
+        window.location.reload()
+       
 
 
     }
@@ -239,7 +243,8 @@ export default class Answer extends React.Component {
             body: JSON.stringify(updateRating)
         })
 
-        
+        sessionStorage.setItem('ReloadingAfterPost',true)
+        window.location.reload()
        
     }
 
@@ -281,7 +286,9 @@ export default class Answer extends React.Component {
                 },
                 body: JSON.stringify(data)
             })
-            window.location.replace(`http://localhost:3000/answer`)
+            sessionStorage.setItem('ReloadingAfterPost',true)
+            window.location.reload()
+           
         })
         refTextInput.style.minWidth = "50%"
         refTextInput.style.maxWidth = "50%"
