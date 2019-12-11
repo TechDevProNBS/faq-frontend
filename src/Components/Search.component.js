@@ -11,19 +11,23 @@ export default class Home extends React.Component{
         
     
         this.state = { 
-            filteredResults:[],                                                  
+            filteredResults:[],
+            searchText: sessionStorage.getItem('SearchText')                                           
         }
+        
+        console.log(this.state.searchText)
     }
 
     search = (e) => {
         e.preventDefault()
         var initialString = document.getElementById("searchText").value
+        
         var queryString = initialString.replace(/[^a-zA-Z ]/g, "")
         fetch(`http://localhost:4001/Questions/SearchQ/${queryString}`)
             .then(response => response.json())
             .then(data => {
                 this.setState({
-                    filteredResults: data,
+                    filteredResults: data
                 })
             
             })
@@ -74,61 +78,120 @@ export default class Home extends React.Component{
 
 
     render(){
-        return (
-            <div>
-                <body id="page-top">
-
-                    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black', paddingTop: '0px', paddingBottom: '0px' }}>
+        if(this.state.filteredResults.length>0){
+            return (
+                <div>
+                    <body id="page-top">
+    
+                        <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black', paddingTop: '0px', paddingBottom: '0px' }}>
+                            <div class="container">
+                                <a class="navbar-brand js-scroll-trigger" href="/"><img
+                                    src="Nationwide.png"
+                                    width="50"
+                                    height="50"
+                                    alt="Nationwide Logo"
+                                    style={{ borderRadius: '25px' }} /></a>
+                                 <div className='searchBar'> 
+                                <Form inline>
+                                    <input id="searchText" onKeyDown={this.callchange} spellcheck='true' size="sm" placeholder="Search..." className="mr-sm-1 searchBarText" />
+                                <button className='searchButton' onClick={this.search}><img src="search.png" width='30px' height='30px'></img></button>
+                                </Form>
+                                </div>
+                                <div class="collapse navbar-collapse" id="navbarResponsive">
+    
+                                </div>
+                            </div>
+                        </nav>
+                    </body>
+                    <br />
+                    <div className="container" style={{ marginTop: '60px', marginBottom: '30px', height:'327px' }}>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h3 style={{ color: '#3252A4' }}>Search Results:</h3>
+                                <p class="lead"></p>
+                                {
+                                    this.state.filteredResults.map((data, index) =>
+    
+                                        <div>
+                                            <font className='hyperlinkText' style={{color:'#4385FC'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font><br />
+                                            <br />
+                                        </div>
+                                    )}
+                            </div>
+                        </div>
+    
+    
+                    </div>
+                    <center>
+                        <div>Not found what you were looking for?</div><br />
+                        <Button variant='danger' onClick={() => this.handleButtonToggleAskModal(true)} style={{ height: '25px', paddingTop: '0' }}>Ask A Question</Button>
+                    </center>
+                    <AskQuestionModal content={this.textAnswer()} title={"Ask A Question"} showModal={this.state.showModal} close={() => this.handleButtonToggleAskModal(false)} /><br />
+                    <footer className='py-1  FAQFooter'>
                         <div class="container">
-                            <a class="navbar-brand js-scroll-trigger" href="/"><img
-                                src="Nationwide.png"
-                                width="50"
-                                height="50"
-                                alt="Nationwide Logo"
-                                style={{ borderRadius: '25px' }} /></a>
-                             <div className='searchBar'> 
-                            <Form inline>
-                                <input id="searchText" onKeyDown={this.callchange} spellcheck='true' size="sm" placeholder="Search..." className="mr-sm-1 searchBarText" />
-                            <button className='searchButton' onClick={this.search}><img src="search.png" width='30px' height='30px'></img></button>
-                            </Form>
-                            </div>
-                            <div class="collapse navbar-collapse" id="navbarResponsive">
-
-                            </div>
+                            <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
                         </div>
-                    </nav>
-                </body>
-                <br />
-                <div className="container" style={{ marginTop: '60px', marginBottom: '30px', height:'327px' }}>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <h3 style={{ color: '#3252A4' }}>Search Results:</h3>
-                            <p class="lead"></p>
-                            {
-                                this.state.filteredResults.map((data, index) =>
-
-                                    <div>
-                                        <font className='hyperlinkText' style={{color:'#4385FC'}} onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</font><br />
-                                        <br />
-                                    </div>
-                                )}
-                        </div>
-                    </div>
-
-
+                    </footer>
                 </div>
-                <center>
-                    <div>Not found what you were looking for?</div><br />
-                    <Button variant='danger' onClick={() => this.handleButtonToggleAskModal(true)} style={{ height: '25px', paddingTop: '0' }}>Ask A Question</Button>
-                </center>
-                <AskQuestionModal content={this.textAnswer()} title={"Ask A Question"} showModal={this.state.showModal} close={() => this.handleButtonToggleAskModal(false)} /><br />
-                <footer className='py-1  FAQFooter'>
-                    <div class="container">
-                        <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
+            )
+        }
+
+        else {
+            return (
+                <div>
+                    <body id="page-top">
+    
+                        <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black', paddingTop: '0px', paddingBottom: '0px' }}>
+                            <div class="container">
+                                <a class="navbar-brand js-scroll-trigger" href="/"><img
+                                    src="Nationwide.png"
+                                    width="50"
+                                    height="50"
+                                    alt="Nationwide Logo"
+                                    style={{ borderRadius: '25px' }} /></a>
+                                 <div className='searchBar'> 
+                                <Form inline>
+                                    <input id="searchText" onKeyDown={this.callchange} spellcheck='true' size="sm" placeholder="Search..." className="mr-sm-1 searchBarText" />
+                                <button className='searchButton' onClick={this.search}><img src="search.png" width='30px' height='30px'></img></button>
+                                </Form>
+                                </div>
+                                <div class="collapse navbar-collapse" id="navbarResponsive">
+    
+                                </div>
+                            </div>
+                        </nav>
+                    </body>
+                    <br />
+                    <div className="container" style={{ marginTop: '60px', marginBottom: '30px', height:'327px' }}>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h3 style={{ color: '#3252A4' }}>Search Results:</h3>
+           
+                                <p class="lead"></p>
+                               
+                               
+                            </div>
+                        </div>
+    
+                        <h3 style={{ color: '#3252A4' }}>No results found, did you mean to search for....</h3>
+                        <h3 style={{ color: 'red' }}>"{sessionStorage.getItem('SearchText')}"<span style={{ color: '#3252A4' }}> ?</span></h3>
+            
                     </div>
-                </footer>
-            </div>
-        )
+                    
+                    <center>
+                        <div>Not found what you were looking for?</div><br />
+                        <Button variant='danger' onClick={() => this.handleButtonToggleAskModal(true)} style={{ height: '25px', paddingTop: '0' }}>Ask A Question</Button>
+                    </center>
+                    <AskQuestionModal content={this.textAnswer()} title={"Ask A Question"} showModal={this.state.showModal} close={() => this.handleButtonToggleAskModal(false)} /><br />
+                    <footer className='py-1  FAQFooter'>
+                        <div class="container">
+                            <p class="m-0 text-center text-black">Copyright &copy; APT 2019</p>
+                        </div>
+                    </footer>
+                </div>
+            )
+        }
+       
     }
 
 }

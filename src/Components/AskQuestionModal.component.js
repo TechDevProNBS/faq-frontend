@@ -37,8 +37,14 @@ class AskQuestionsModal extends Component {
      */
     postQuestion = (e) => {
         e.preventDefault();
+        
         let questionContent = document.getElementById("textQuestion").value
         
+        if(questionContent.length>1){
+            if(questionContent.substring(questionContent.length,questionContent.length-1)!="?"){
+                questionContent = questionContent + "?"
+
+            }
             let data = {
                 
                 "userID": 1,                                                                  //We create a variable called data and store what is currently in the state into it
@@ -55,9 +61,15 @@ class AskQuestionsModal extends Component {
                     if (response.status === 200) {
                         window.location.replace(`http://localhost:3000/`);
                     } else {
-                        alert('Failed to post QQQ');
+                        alert('Failed to post Question');
                     };
                 })
+        }
+
+        else {
+            alert("Please Enter a Question")
+        }
+            
             
         }
     
