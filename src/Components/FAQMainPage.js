@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form, FormControl, Button } from 'react-bootstrap'
+import { Form} from 'react-bootstrap'
 import './css/FAQ.css'
-import AskQuestionModal from './AskQuestionModal.component'
 import DeleteQuestionModal from './DeleteQuestionModal.component'
 import Search from './Search.component'
+import Answer from './AnswerPage.component'
 import { TextArea } from 'semantic-ui-react'
 
 export default class Home extends React.Component {
@@ -16,7 +16,8 @@ export default class Home extends React.Component {
             UnansweredQ: [],
             TopRatedQ: [],
             showIssueModal: true,
-            search:false
+            search:false,
+            Answer:false
             //Name of what you want 
         }
     }
@@ -68,6 +69,9 @@ export default class Home extends React.Component {
         sessionStorage.setItem('q_id', q_id)
         sessionStorage.setItem('postDQ', postDQ)
         sessionStorage.setItem('postTQ', postTQ)
+        this.setState({                 
+            Answer:true
+        })
     }
     
     /**
@@ -189,6 +193,12 @@ export default class Home extends React.Component {
                <Search/>
            </div>
         }
+
+       else if(this.state.Answer==true) {
+            return <div>
+                <Answer/>
+            </div>
+        }
         /**
      * This else statement executes when the user first loads the homepage and displays a range of certain
      * specified questions - eg trending etc - along with the edit and delete buttons if the user has the
@@ -233,7 +243,7 @@ export default class Home extends React.Component {
                                         
                                         <div>
 
-                                           <span id={'tquestion' + data.q_id}> <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
+                                           <span id={'tquestion' + data.q_id}> <a  onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
                                             
                                         <a href='#' onClick={() => this.editQuestion(data.q_id,"tquestion" + data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
                                         <a href='#'onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
@@ -250,7 +260,7 @@ export default class Home extends React.Component {
                                 {
                                     this.state.UnansweredQ.map((data, index) =>
                                         <div>
-                                          <span id={'uaquestion' + data.q_id}>   <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
+                                          <span id={'uaquestion' + data.q_id}>   <a  onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
                                         <a href='#' onClick={() => this.editQuestion(data.q_id,"uaquestion"+ data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
                                         <a href='#' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br />
                                         <br />
@@ -265,7 +275,7 @@ export default class Home extends React.Component {
                                 {
                                     this.state.RecentQ.map((data, index) =>
                                         <div>
-                                           <span id={'rpquestion' + data.q_id}>  <a href="/answer" onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
+                                           <span id={'rpquestion' + data.q_id}>  <a onClick={() => this.Qstorage(data.question, data.q_id, data.niceDate, data.niceTime)}>{index + 1}) {data.question}</a></span>
                                         <a href='#' onClick={() => this.editQuestion(data.q_id,"rpquestion"+data.q_id, data.question)} style={{ marginLeft: '20px', color:'red' }}>Edit</a>
                                         <a href='#' onClick={() => this.handleButtonToggleDeleteQuestionModal(true, data.q_id)} style={{ marginLeft: '20px', marginRight: '20px', color:'red' }}>Delete</a><br/>
                                         <br />

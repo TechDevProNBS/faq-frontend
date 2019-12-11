@@ -1,8 +1,7 @@
 import React from 'react';
-import { Form, FormControl, Button } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 import './css/FAQ.css'
 import AskQuestionModal from './AskQuestionModal.component'
-import DeleteQuestionModal from './DeleteQuestionModal.component'
 import { TextArea } from 'semantic-ui-react'
 
 export default class Home extends React.Component{

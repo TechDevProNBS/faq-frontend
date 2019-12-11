@@ -13,7 +13,6 @@ class App extends React.Component {
                     <Router>
                         <div>
                             <Route exact path="/" component={MainPage} />
-                            <Route exact path="/answer" component={AnswerPage} />
                         </div>
                     </Router>
                 </div>
