@@ -244,8 +244,8 @@ export default class Answer extends React.Component {
         window.location.reload()
     }
 
-        console.log(currentRating)
-    }
+        
+    
         
     /**
      * This is a function that is called when the edit button that is next to
