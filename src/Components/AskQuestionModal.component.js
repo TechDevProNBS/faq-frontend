@@ -14,20 +14,31 @@ class AskQuestionsModal extends Component {
         this.close = () => {
             this.setState({ showModal: this.props.showModal });
         };
-        /* Function not used
-        this.open = () => {
-            this.setState({ showModal: true });
-        }; */
     }
+    /**
+     * Function to show the model using the state
+     * from another .js file - hence use of props
+     *
+     * @param {*} nextProps
+     * @memberof AskQuestionModal
+     */
     componentWillReceiveProps(nextProps) {
         this.setState({
             showModal: nextProps.showModal
         })
     }
+    /**
+     * Function to post a comment to the database using 
+     * /Questions/PostQ
+     * Once the comment has been sent, it reloads the
+     * home page
+     *
+     * @memberof AskQuestionModal
+     */
     postQuestion = (e) => {
         e.preventDefault();
         let questionContent = document.getElementById("textQuestion").value
-        alert(questionContent)
+        
             let data = {
                 
                 "userID": 1,                                                                  //We create a variable called data and store what is currently in the state into it

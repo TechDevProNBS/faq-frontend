@@ -3,8 +3,6 @@ import {Button} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import './css/FAQ.css'
 
-import { TextArea } from 'semantic-ui-react'
-
 class CommentModal extends Component {
     constructor(...args) {
         super(...args);
@@ -16,16 +14,27 @@ class CommentModal extends Component {
         this.close = () => {
             this.setState({ showModal: this.props.showModal });
         };
-        /* Function not used
-        this.open = () => {
-            this.setState({ showModal: true });
-        }; */
     }
+    /**
+     * Function to show the model using the state
+     * from another .js file - hence use of props
+     *
+     * @param {*} nextProps
+     * @memberof CommentModal
+     */
     componentWillReceiveProps(nextProps) {
         this.setState({
             showModal: nextProps.showModal
         })
     }
+     /**
+     * Function to post a comment to the database using 
+     * /Comment/Post
+     * Once the comment has been sent, it reloads the overall
+     * answers page
+     *
+     * @memberof CommentModal
+     */
     postComment = (e) =>{
         e.preventDefault();
         console.log(document.getElementById("textComment"))
@@ -34,20 +43,23 @@ class CommentModal extends Component {
             textComment:document.getElementById("textComment").value
         }, () => {
             let data = {
+                
                 "a_id": sessionStorage.getItem('a_id'),
-                "userID": 71,                                                                  //We create a variable called data and store what is currently in the state into it
-                "comment":this.state.textComment
+                "userID": 71,   
+                "comment":this.state.textComment                                                           
             }
-            fetch(`http://localhost:4001/Comments/PostC`, {                                    //This is the fetch request that actually communicates with the backend
-                method: 'POST',                                                             //This defines the method as a POST method
+            fetch(`http://localhost:4001/Comments/PostC`, {                                  
+                method: 'POST',                                                            
                 headers: {
-                    'Content-Type': 'application/json',                                     //This converts it into JSON format
+                    'Content-Type': 'application/json',                                  
                 },
                 body: JSON.stringify(data)
             })
-                .then(response => {                                                         //Error handling
+                .then(response => {                                                    
                     if (response.status === 200) {
-                        window.location.replace(`http://localhost:3000/answer`);
+                        sessionStorage.setItem('ReloadingAfterPost',true)
+                        window.location.reload()
+                       
                     } else {
                         alert('Failed to post comment');
                     };
@@ -57,6 +69,12 @@ class CommentModal extends Component {
     }
 
 
+    /**
+     *This render is the design of the Comment Modal that appears on screen to allow users to comment
+     *
+     * @returns
+     * @memberof CommentModal
+     */
     render() {
         return (
             <Modal
