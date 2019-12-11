@@ -43,8 +43,10 @@ class CommentModal extends Component {
             textComment:document.getElementById("textComment").value
         }, () => {
             let data = {
+                
                 "a_id": sessionStorage.getItem('a_id'),
-                "userID": 71,                                                              
+                "userID": 71,   
+                "comment":this.state.textComment                                                           
             }
             fetch(`http://localhost:4001/Comments/PostC`, {                                  
                 method: 'POST',                                                            
