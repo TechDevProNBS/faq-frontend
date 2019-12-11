@@ -20,9 +20,12 @@ export default class Answer extends React.Component {
 
     constructor() {
         super();
+       
         this.state = {
             RecentA: [],
             RecentC: [],
+            CountA: 0,
+            QuestionRating: 0,
             showIssueModal: true
         }
 
@@ -177,7 +180,7 @@ export default class Answer extends React.Component {
 
                 currentRating = dataTop
             })
-
+                
         if (id == "UP") { currentRating = currentRating + 1 }
         else if (id == "DOWN") { currentRating = currentRating - 1 }
 
@@ -193,9 +196,9 @@ export default class Answer extends React.Component {
             },
             body: JSON.stringify(updateRating)
         })
+     
 
-
-        this.reRender();
+        
 
 
     }
@@ -237,12 +240,10 @@ export default class Answer extends React.Component {
         })
 
         
-        this.reRender();
+       
     }
 
-    reRender = () => {
-        window.location.reload()
-    }
+    
 
         
     
@@ -334,7 +335,10 @@ export default class Answer extends React.Component {
         let totalRatingQ = ""
         
         var Ratings = []
-        var q_id = sessionStorage.getItem('q_id');
+        // var urlString = window.location.href
+        // var url = new URL(urlString)
+        // var q_id =  url.searchParams.get("q");
+        var q_id = sessionStorage.getItem('q_id')
        await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
             .then(response => response.json())
             .then(dataRecentA => {
@@ -379,7 +383,6 @@ export default class Answer extends React.Component {
                         RecentA: Alpha,
                         CountA: Beta,
                         QuestionRating: totalRatingQ,
-
                     })
                 })
         }
@@ -389,7 +392,6 @@ export default class Answer extends React.Component {
                 RecentA: Alpha,
                 CountA: 0,
                 QuestionRating: totalRatingQ,
-
             })
         }
     }
