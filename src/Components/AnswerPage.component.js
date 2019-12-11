@@ -25,6 +25,7 @@ export default class Answer extends React.Component {
             RecentC: [],
             showIssueModal: true
         }
+
     }
     /**
     * This is a function that is called when the add answer button is clicked.
@@ -39,12 +40,14 @@ export default class Answer extends React.Component {
         this.handleButtonToggleCommentModal(true)
     }
 
+
     /**
     * This is the function responsible for showing the modal
     * once the add comment button is clicked
     *
     * @memberof Answer
     */
+
     handleButtonToggleCommentModal = (toggle) => {
         this.setState({
             showModal: toggle
@@ -111,6 +114,7 @@ export default class Answer extends React.Component {
         );
     }
 
+
     /**
      * This is a functoin that is called when the edit button that is next to
      * the answers is clicked. 
@@ -121,6 +125,7 @@ export default class Answer extends React.Component {
      *
      * @memberof Answer
      */
+
     editAnswer = (spanid, answer) => {
 
         var ref = document.getElementById("answer" + spanid)
@@ -169,6 +174,7 @@ export default class Answer extends React.Component {
         await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)                                  //Url from backend
             .then(response => response.json())
             .then(dataTop => {
+
                 currentRating = dataTop
             })
 
@@ -187,6 +193,11 @@ export default class Answer extends React.Component {
             },
             body: JSON.stringify(updateRating)
         })
+
+
+        this.reRender();
+
+
     }
 
     /**
@@ -224,6 +235,15 @@ export default class Answer extends React.Component {
             },
             body: JSON.stringify(updateRating)
         })
+
+        
+        this.reRender();
+    }
+
+    reRender = () => {
+        window.location.reload()
+    }
+
         console.log(currentRating)
     }
         
@@ -238,6 +258,7 @@ export default class Answer extends React.Component {
      * @memberof Answer
      */
         
+
     editComment = (spanid, comment) => {
 
         var ref = document.getElementById("comment" + spanid)
@@ -269,6 +290,31 @@ export default class Answer extends React.Component {
         ref.appendChild(refConfirmButton)
     }
 
+
+    // combineArray = (RecentA, Ratings) => {
+    //     console.log(Ratings)
+    //     console.log(Ratings[0])
+    //     var newArray = []
+    //         newArray = RecentA.map((data, index) => {
+    //             return (
+    //                 {
+    //                     "a_id": data.a_id,
+    //                     "answer": data.answer,
+    //                     "niceDate": data.niceDate,
+    //                     "niceTime": data.niceTime,
+    //                     "postdate_A": data.postdate_A,
+    //                     "q_id": data.q_id,
+    //                     "u_id": data.u_id,
+    //                     "rating": Ratings[index]
+    //                 }
+    //             )
+    //         })
+        
+                   
+    //     return (newArray)
+    // }
+
+
     /**
      * This componentDidMount function is responsible for processing
      * all of the get requests relating to answers to the backend.
@@ -280,17 +326,40 @@ export default class Answer extends React.Component {
      * @memberof Answer
      */
     
+
     componentDidMount = async () => {
         let Alpha = ""
         let Beta = ""
         let Gamma = ""
+        let totalRatingQ = ""
+        
+        var Ratings = []
         var q_id = sessionStorage.getItem('q_id');
-        await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
+       await fetch(`http://localhost:4001/Answers/RecentA/${q_id}`)
             .then(response => response.json())
+            .then(dataRecentA => {
+                Alpha=dataRecentA
+            //     if(dataRecentA.length>0){
 
+            //         dataRecentA.forEach(element => {
+            //         fetch(`http://localhost:9001/Answers/TotalRatings/${element.a_id}`)
+            //             .then(response => response.json())
+            //             .then(data => {
+            //                 Ratings.push(data) 
+            //                 Alpha = this.combineArray(dataRecentA,Ratings)   
+            //             })
+            //     })
+            // }
+            //     else{Alpha=dataRecentA}  
+            })
+        await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)
+            .then(response => response.json())
             .then(data => {
-                console.log(data)
-                Alpha = data
+
+                if (data > 0) { data = "+" + data }
+
+                totalRatingQ = data
+              
             })
 
         await fetch(`http://localhost:4001/Answers/CountA/${q_id}`)
@@ -308,7 +377,9 @@ export default class Answer extends React.Component {
                     this.setState({
                         RecentC: dataC,
                         RecentA: Alpha,
-                        CountA: Beta
+                        CountA: Beta,
+                        QuestionRating: totalRatingQ,
+
                     })
                 })
         }
@@ -316,7 +387,9 @@ export default class Answer extends React.Component {
             this.setState({
                 RecentC: Gamma,
                 RecentA: Alpha,
-                CountA: 0
+                CountA: 0,
+                QuestionRating: totalRatingQ,
+
             })
         }
     }
@@ -345,7 +418,9 @@ export default class Answer extends React.Component {
                 </h3>
                 <h4 className='QuestionHeading'> {sessionStorage.getItem('questions')}<Button variant='primary' id="upVoteQ" onClick={() => this.editQuestionRating("UP")} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                     <Button variant='danger' id="dwnVoteQ" onClick={() => this.editQuestionRating("DOWN")} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
-                    (rating)<br /></h4>
+
+                    (rating: {this.state.QuestionRating})<br /></h4>
+
                 <text variant='secondary' style={{ marginLeft: '40px' }}>posted on: {sessionStorage.getItem('postDQ')} @ {sessionStorage.getItem('postTQ')}</text>
                 <div class="container site-container" style={{ marginTop: '20px', marginBottom: '30px' }}>
                     <div class="row">
@@ -365,7 +440,7 @@ export default class Answer extends React.Component {
                                         <br /><br />
                                         <Button variant='primary' onClick={() => this.editAnswerRating("UP", data.a_id)} className='VoteUp'><i style={{ marginBottom: '3px' }} class="arrow up"></i></Button>
                                         <Button variant='danger' onClick={() => this.editAnswerRating("DOWN", data.a_id)} className='VoteDown'><i style={{ marginBottom: '7px' }} class="arrow down"></i></Button>
-                                        (rating)
+                                        (rating: {data.rating})
                                         <Button variant='primary' size='sm' onClick={() => this.answerStorage(data.a_id)} className='CommentButton'>Add Comment</Button><br /><br />
                                         <hr className='AnswerCommentSeparator' />
                                         <br />
@@ -373,7 +448,9 @@ export default class Answer extends React.Component {
                                             this.state.RecentC.map((RecentC) => {
                                                 if (data.a_id == RecentC.a_id) {
 
+
                                                     var element = <div><span id={'comment' + RecentC.c_id}><textarea rows='3' className='CommentBox' disabled>{RecentC.comment}</textarea></span><br />
+
 
                                                         <span style={{ marginLeft: '55px' }}>posted on: {RecentC.niceDate}</span><br />
                                                         <span style={{ marginLeft: '55px' }}>@ {RecentC.niceTime}</span>
