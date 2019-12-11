@@ -6,4 +6,4 @@ RUN npm cache clean --force && npm install
 
 CMD npm run-script build
 
-CMD npm start &
+CMD npm start
