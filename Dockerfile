@@ -4,6 +4,6 @@ COPY . .
 
 RUN npm cache clean --force && npm install
 
-CMD [ "npm","run","build" ]
+CMD [ "npm","run-script","build" ]
 
 ENTRYPOINT [ "npm", "start" ]
