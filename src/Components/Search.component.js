@@ -68,6 +68,10 @@ export default class Home extends React.Component{
 
         );
     }
+    HomePage = () => {
+       
+        sessionStorage.removeItem('ReloadingAfterSearch')
+    }
 
     componentDidMount = () => {
         let queryString = sessionStorage.getItem('SearchText')
@@ -92,7 +96,7 @@ export default class Home extends React.Component{
     
                         <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black', paddingTop: '0px', paddingBottom: '0px' }}>
                             <div class="container">
-                                <a class="navbar-brand js-scroll-trigger" href="/"><img
+                                <a class="navbar-brand js-scroll-trigger" href="/" onClick={this.HomePage}><img
                                     src="Nationwide.png"
                                     width="50"
                                     height="50"
@@ -150,7 +154,7 @@ export default class Home extends React.Component{
     
                         <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style={{ backgroundColor: '#DFDFDF', borderTop: '2px solid', borderBottom: '2px solid', color: 'black', paddingTop: '0px', paddingBottom: '0px' }}>
                             <div class="container">
-                                <a class="navbar-brand js-scroll-trigger" href="/"><img
+                                <a class="navbar-brand js-scroll-trigger" href="/" onClick={this.HomePage}><img
                                     src="Nationwide.png"
                                     width="50"
                                     height="50"
@@ -180,8 +184,8 @@ export default class Home extends React.Component{
                             </div>
                         </div>
     
-                        <h3 style={{ color: '#3252A4' }}>No results found, did you mean to search for....</h3>
-                        <h3 style={{ color: 'red' }}>"{sessionStorage.getItem('SearchText')}"<span style={{ color: '#3252A4' }}> ?</span></h3>
+                        <h3 style={{ color: '#3252A4' }}>No results found for....</h3>
+                        <h3 style={{ color: 'red' }}>"{sessionStorage.getItem('SearchText')}"</h3>
             
                     </div>
                     

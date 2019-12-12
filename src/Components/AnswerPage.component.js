@@ -243,13 +243,14 @@ export default class Answer extends React.Component {
      */
                   
     editAnswerRating = async (vote, a_id) => {
-        if(vote==="UP" && sessionStorage.getItem('PreviousVoteA')==="UP" && a_id===sessionStorage.getItem('PrevA_id')){
+        if(vote==="UP" && sessionStorage.getItem('PreviousVoteA')==="UP" && a_id===parseInt(sessionStorage.getItem('PrevA_id'))){
             alert("You have already upvoted this answer")
         }
-        else if (vote==="DOWN" && sessionStorage.getItem('PreviousVoteA')==="DOWN" && a_id===sessionStorage.getItem('PrevA_id')){
+        else if (vote==="DOWN" && sessionStorage.getItem('PreviousVoteA')==="DOWN" && a_id===parseInt(sessionStorage.getItem('PrevA_id'))){
             alert("You have already downvoted this answer")
         }
         else {
+            
             let currentRating = ""
             await fetch(`http://localhost:9001/Answers/TotalRatings/${a_id}`)                                  //Url from backend
                 .then(response => response.json())
@@ -273,11 +274,12 @@ export default class Answer extends React.Component {
                 },
                 body: JSON.stringify(updateRating)
             })
+            window.location.reload()
         }
-        sessionStorage.getItem('PrevA_id',a_id)
+        sessionStorage.setItem('PrevA_id',a_id)
         sessionStorage.setItem('PreviousVoteA',vote)
         sessionStorage.setItem('ReloadingAfterPost',true)
-        window.location.reload()
+
        
     }
 
