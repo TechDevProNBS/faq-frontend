@@ -21,8 +21,10 @@ export default class Home extends React.Component{
     search = (e) => {
         e.preventDefault()
         var initialString = document.getElementById("searchText").value
-        
+        if(initialString.length>0){
+            
         var queryString = initialString.replace(/[^a-zA-Z ]/g, "")
+        sessionStorage.setItem('SearchText',queryString)
         fetch(`http://localhost:4001/Questions/SearchQ/${queryString}`)
             .then(response => response.json())
             .then(data => {
@@ -31,7 +33,12 @@ export default class Home extends React.Component{
                 })
             
             })
+            sessionStorage.setItem('ReloadingAfterSearch',true)
+        }
+            else alert("Please enter search parameters")
     }   
+
+
     Qstorage(question, q_id, postDQ, postTQ) {
         sessionStorage.setItem('questions', question)
         sessionStorage.setItem('q_id', q_id)

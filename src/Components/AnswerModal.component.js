@@ -39,7 +39,8 @@ class AnswerQuestionsModal extends Component {
      */
     postAnswer = (e) =>{
         e.preventDefault();
-        this.setState({
+        if(document.getElementById("textAnswer").value.length>1){
+            this.setState({
             textAnswer:document.getElementById("textAnswer").value
         }, () => {
             let data = {
@@ -62,8 +63,13 @@ class AnswerQuestionsModal extends Component {
                         alert('Failed to post answer');
                     };
                 })
-            console.log(this.state)
+        
         })
+        }
+        
+        else {
+            alert("Please Enter a Question")
+        }
     }
     render() {
         return (

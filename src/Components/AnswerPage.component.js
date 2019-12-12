@@ -117,6 +117,11 @@ export default class Answer extends React.Component {
         );
     }
 
+    HomePage = () => {
+        sessionStorage.setItem('q_id', sessionStorage.getItem('q_id'))
+        sessionStorage.removeItem('ReloadingAfterPost')
+    }
+
 
     /**
      * This is a functoin that is called when the edit button that is next to
@@ -174,25 +179,30 @@ export default class Answer extends React.Component {
      */
     
     editQuestionRating = async (id) => {
-        
-       
-            let originalRating = sessionStorage.getItem('originalRating')
+
+            let originalRating = sessionStorage.getItem('orgRating')  
+                  
+            let upBut = document.getElementById('upVoteQ')
+            let downBut = document.getElementById('dwnVoteQ')
             let currentRating = ""
         let q_id = sessionStorage.getItem('q_id')
         await fetch(`http://localhost:9001/Questions/TotalRatings/${q_id}`)                                  //Url from backend
             .then(response => response.json())
             .then(dataTop => {
-
                 currentRating = dataTop
+                
             })
-            if(id==="UP" && sessionStorage.getItem('PreviousVoteQ')==="UP" ){
-                alert("You have already upvoted this question")
+            if(id==="UP" && sessionStorage.getItem('PreviousVoteQ')==="UP" && currentRating > originalRating ){
+                
+                upBut.disabled = true
             }
-            else if (id==="DOWN" && sessionStorage.getItem('PreviousVoteQ')==="DOWN"){
-                alert("You have already downvoted this question")
+            else if (id==="DOWN" && sessionStorage.getItem('PreviousVoteQ')==="DOWN" && currentRating < originalRating  ){
+              
+                downBut.disabled = true
             }
 
             else {
+                
 
         if (id === "UP") { currentRating = currentRating + 1 }
         else if (id === "DOWN") { currentRating = currentRating - 1 }
@@ -209,12 +219,13 @@ export default class Answer extends React.Component {
             },
             body: JSON.stringify(updateRating)
         })
+        window.location.reload()
         }
         
         
         sessionStorage.setItem('PreviousVoteQ',id)
         sessionStorage.setItem('ReloadingAfterPost',true)
-        window.location.reload()
+       
        
 
 
@@ -358,6 +369,7 @@ export default class Answer extends React.Component {
     
 
     componentDidMount = async () => {
+        let prevLod = sessionStorage.getItem('prevLod')
         let Alpha = ""
         let Beta = ""
         let Gamma = ""
@@ -389,6 +401,10 @@ export default class Answer extends React.Component {
             .then(response => response.json())
             .then(data => {
 
+                if(prevLod != 1){
+                    sessionStorage.setItem('orgRating',data)
+                }
+
                 if (data > 0) { data = "+" + data }
 
                 totalRatingQ = data
@@ -400,7 +416,7 @@ export default class Answer extends React.Component {
             .then(response => response.json())
             .then(data => {
                 Beta = data[0].hits
-
+                sessionStorage.setItem('prevLod',1)
             })
         if (Beta > 0) {
             fetch(`http://localhost:4001/Comments/GetC/${q_id}`)
@@ -422,7 +438,9 @@ export default class Answer extends React.Component {
                 CountA: 0,
                 QuestionRating: totalRatingQ,
             })
+            
         }
+        
     }
 
     render() {
@@ -431,7 +449,7 @@ export default class Answer extends React.Component {
                 <body id="page-top">
                     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" className='FAQHeader'>
                         <div class="container">
-                            <a class="navbar-brand js-scroll-trigger" href="/"><img
+                            <a class="navbar-brand js-scroll-trigger" href="/" onClick={this.HomePage}><img
                                 src="Nationwide.png"
                                 width="50"
                                 height="50"
