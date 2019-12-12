@@ -11,7 +11,6 @@ export default class Home extends React.Component {
         super();
         
         if(sessionStorage.getItem('ReloadingAfterPost')){
-        
         this.state = {                                                        //this.state represent the rendered values, i.e. what’s currently on the screen
             RecentQ: [],
             UnansweredQ: [],
@@ -23,6 +22,19 @@ export default class Home extends React.Component {
         }
         sessionStorage.removeItem('ReloadingAfterPost')
 
+        }
+
+        else if(sessionStorage.getItem('ReloadingAfterSearch')){
+            this.state = {                                                        //this.state represent the rendered values, i.e. what’s currently on the screen
+                RecentQ: [],
+                UnansweredQ: [],
+                TopRatedQ: [],
+                showIssueModal: true,
+                search:true,
+                Answer:false
+                //Name of what you want 
+            }
+            sessionStorage.removeItem('ReloadingAfterSearch')
         }
 
          else   this.state = {                                                        //this.state represent the rendered values, i.e. what’s currently on the screen
@@ -54,8 +66,7 @@ export default class Home extends React.Component {
                             })
         }
         else alert("Please enter search parameters")
-       
-           
+    
     }
 
     /**
@@ -83,6 +94,16 @@ export default class Home extends React.Component {
      * @memberof Home
      */
     Qstorage(question, q_id, postDQ, postTQ) {
+        if(parseInt(sessionStorage.getItem('q_id'))===q_id){
+        sessionStorage.setItem('questions', question)
+        sessionStorage.setItem('postDQ', postDQ)
+        sessionStorage.setItem('postTQ', postTQ)
+        this.setState({                 
+            Answer:true
+        })
+        }
+        else  {
+            sessionStorage.removeItem('prevLod')
         sessionStorage.setItem('questions', question)
         sessionStorage.setItem('q_id', q_id)
         sessionStorage.setItem('postDQ', postDQ)
@@ -90,6 +111,8 @@ export default class Home extends React.Component {
         this.setState({                 
             Answer:true
         })
+        }
+        
     }
     
     /**

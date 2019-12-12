@@ -37,35 +37,40 @@ class CommentModal extends Component {
      */
     postComment = (e) =>{
         e.preventDefault();
-        console.log(document.getElementById("textComment"))
-       
-        this.setState({
-            textComment:document.getElementById("textComment").value
-        }, () => {
-            let data = {
-                
-                "a_id": sessionStorage.getItem('a_id'),
-                "userID": 71,   
-                "comment":this.state.textComment                                                           
-            }
-            fetch(`http://localhost:4001/Comments/PostC`, {                                  
-                method: 'POST',                                                            
-                headers: {
-                    'Content-Type': 'application/json',                                  
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => {                                                    
-                    if (response.status === 200) {
-                        sessionStorage.setItem('ReloadingAfterPost',true)
-                        window.location.reload()
-                       
-                    } else {
-                        alert('Failed to post comment');
-                    };
+        
+        if(document.getElementById("textComment").value.length>1){
+            sessionStorage.setItem('ReloadingAfterPost',true)
+            this.setState({
+                textComment:document.getElementById("textComment").value
+            }, () => {
+                let data = {
+                    
+                    "a_id": sessionStorage.getItem('a_id'),
+                    "userID": 71,   
+                    "comment":this.state.textComment                                                           
+                }
+                fetch(`http://localhost:4001/Comments/PostC`, {                                  
+                    method: 'POST',                                                            
+                    headers: {
+                        'Content-Type': 'application/json',                                  
+                    },
+                    body: JSON.stringify(data)
                 })
-                console.log(this.state.textComment)
-        })
+                    .then(response => {                                                    
+                        if (response.status === 200) {
+                            
+                            window.location.reload()
+                           
+                        } else {
+                            alert('Failed to post comment');
+                        };
+                    })
+                    console.log(this.state.textComment)
+            })
+        }
+       
+        
+        else alert("Please enter a comment")
     }
 
 
