@@ -18,6 +18,10 @@ export default class Home extends React.Component{
         console.log(this.state.searchText)
     }
 
+/**
+ * this function is a duplicate of the one on the homepage which allows users to search again on the search page.
+ */
+
     search = (e) => {
         e.preventDefault()
         var initialString = document.getElementById("searchText").value
@@ -31,13 +35,19 @@ export default class Home extends React.Component{
                 this.setState({
                     filteredResults: data
                 })
-            
             })
             sessionStorage.setItem('ReloadingAfterSearch',true)
         }
             else alert("Please enter search parameters")
     }   
 
+    /**
+     * this is also a duplicate of the homepage function.
+     * @param {*} question 
+     * @param {*} q_id 
+     * @param {*} postDQ 
+     * @param {*} postTQ 
+     */
 
     Qstorage(question, q_id, postDQ, postTQ) {
         sessionStorage.setItem('questions', question)
@@ -49,6 +59,10 @@ export default class Home extends React.Component{
        
     }
 
+
+    /**
+     * the below are all ducplicates of the mainpage functions to provide same functionality to this component.
+     */
     callchange = (e) => {
         console.log(e.keyCode)
         if (e.keyCode === 13) {
