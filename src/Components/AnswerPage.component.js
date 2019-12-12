@@ -117,6 +117,12 @@ export default class Answer extends React.Component {
         );
     }
 
+
+    /**
+     * this function removes the paramter that would reload the same page again.
+     * it also stores the q_id in the session to allow the mainpage to check if its the same q_id being pressed twice in a row.
+     * the above is used as part of the upvote/downvote limit function.
+     */
     HomePage = () => {
         sessionStorage.setItem('q_id', sessionStorage.getItem('q_id'))
         sessionStorage.removeItem('ReloadingAfterPost')
@@ -130,6 +136,7 @@ export default class Answer extends React.Component {
      * /UpdateA.
      * It will then redirect you back to the answers page once this has been
      * submitted through a window.location.replace
+     *
      *
      * @memberof Answer
      */
@@ -169,8 +176,10 @@ export default class Answer extends React.Component {
     
     /**
      * This is a function that is responsible for 'up-voting' and 'down-voting'
-     * question ratings.
+     * question ratings
      * Firstly it will fetch the current question rating from database with q_id.
+     * it will check to see if this question was the last to be upvoted/downvoted and will check what the original rating was
+     * if the current rating is equal to the original rating it will allow an upvote/downvote.
      * If the up-vote button is clicked, then it +1 to the current rating.
      * If the down-vote button is clicked, then it -1 to the current rating.
      * It then updates this is the backend through a PUT request.
@@ -234,10 +243,12 @@ export default class Answer extends React.Component {
     /**
      * This is a function that is responsible for 'up-voting' and 'down-voting'
      * answer ratings.
-     * Firstly it will fetch the current answer rating from database with q_id.
+     * Firstly it will check to see if the previous button press and a_id match, if so it will alert the user
+     * if the above is not true it will fetch the current answer rating from database with q_id.
      * If the up-vote button is clicked, then it +1 to the current rating.
      * If the down-vote button is clicked, then it -1 to the current rating.
      * It then updates this is the backend through a PUT request.
+     *  ERROR - can only press the buttons once at a time rather than checking the rating so doesnt work fully.
      *
      * @memberof Answer
      */
@@ -295,6 +306,7 @@ export default class Answer extends React.Component {
      * /UpdateC.
      * It will then redirect you back to the answers page once this has been
      * submitted through a window.location.replace
+     * 
      *
      * @memberof Answer
      */
@@ -333,6 +345,13 @@ export default class Answer extends React.Component {
         ref.appendChild(refConfirmButton)
     }
 
+    /**
+     * the commented out finction below works and was responsible for combining an array with results from a query in node
+     * with an array created by the merging of several springboot requests.
+     * it works however it is too slow for the render and so can be very buggy.
+     * this was all to get the ratings for each particular answers from springboot
+     * we have used node instead due to time constraints.
+     */
 
     // combineArray = (RecentA, Ratings) => {
     //     console.log(Ratings)
@@ -365,6 +384,9 @@ export default class Answer extends React.Component {
      * /Answers/CountA tells you how many answers there are.
      * /Comments/GetC gets all the comments relating to the specific
      * answer from the back-end.
+     * it will also check if there are any answers and if there are none it will nto attempt to grab comments
+     * there are elements commented out relating to the above function which take the springboot requests and put then into an array to send to the above function
+     * 
      *
      * @memberof Answer
      */

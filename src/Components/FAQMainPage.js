@@ -6,6 +6,13 @@ import Search from './Search.component'
 import Answer from './AnswerPage.component'
 import { TextArea } from 'semantic-ui-react'
 
+
+/**
+ * the constructors below create varying states depending on session values.
+ * this is a way to force the page to load a different componenet on posting of an answer or search
+ * this is due to the use of locatio.reload in other componenets which would otherwise always render the homepage
+ */
+
 export default class Home extends React.Component {
     constructor() {
         super();
@@ -49,7 +56,9 @@ export default class Home extends React.Component {
     }
     /**
      * the search function takes the text in the search bar, filters out special characters and stores the result in the session storage.
+     * this allows us to call on it in the search component and relay it back to the user if no results were found.
      * it then sets the search state as true which will trigger the rendering of the search component.
+     * it will also checl to ensure that the search function was not triggered with a blank value
      * @memberof Home
      */
 
@@ -86,6 +95,8 @@ export default class Home extends React.Component {
     /**
      *The Qstorage is simply a function to set values to specific items within the sessionStorage,
      * this allows them to be referenced and used elsewhere within the application
+     * it will check the session storage to see if the previous question clicked on is the same and if so will not remove the prevLOd session item
+     * this is so that the original rating can persist if you navigate back to home page and then click on same question(part of u/d vote for Q's)
 
      * @param {*} question
      * @param {*} q_id
@@ -117,6 +128,7 @@ export default class Home extends React.Component {
     
     /**
      * The editQuestion function allows a user to amend a question they have previously submitted
+     * it will create a text box for them to input the edited answers and will then send a PUT request to node backend.
      * @memberof Home
      */
     editQuestion = (q_id,spanid, question ) => {
@@ -223,11 +235,7 @@ export default class Home extends React.Component {
     render() {
         
     /**
-     * This if statement checks whether the current webpage is on the search page - If true, it completes
-     * a search of the DB for the entered fields, if nothing is found displays a message and shows the AskQuestion
-     * button
-     * @returns
-     * @memberof Home
+     * the two below ifs will check the state to see if a search or question has been clicked and will render the relevant components based on this.
      */
         if (this.state.search===true) {
            return <div>
